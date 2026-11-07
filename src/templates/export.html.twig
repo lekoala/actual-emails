@@ -1,0 +1,5 @@
+{# Apply to a complete HTML document, never a component fragment.
+   email_css is styles/email.css with theme tokens resolved (see src/theme.php),
+   passed to the inliner rather than embedded, so only the
+   layout's media-query <style> block survives in the delivered HTML. #}
+{% apply inline_css(email_css) %}{{ include(template) }}{% endapply %}

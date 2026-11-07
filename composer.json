@@ -1,0 +1,21 @@
+{
+  "name": "lekoala/actual-emails-prototype",
+  "description": "A small, email-first transactional design kit — standalone HTML output, Twig demo renderer.",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "twig/twig": "^3.0",
+    "twig/cssinliner-extra": "^3.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "build": "@php bin/build.php",
+    "test": [
+      "@php bin/build.php --check",
+      "@php tests/smoke.php"
+    ]
+  }
+}

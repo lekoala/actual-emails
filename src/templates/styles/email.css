@@ -1,0 +1,105 @@
+/* Actual Emails 0.1 prototype - email-safe design rules.
+ * Source selectors are simple by design. The HTML is table-based because
+ * many email clients do not implement browser CSS layout consistently.
+ * Never assume this sheet is directly linked from emails: inline on export.
+ */
+/* Theme tokens — the only place to change colours.
+ * bin/build.php resolves var() before inlining (email clients and the inliner
+ * do not support custom properties) and exposes them to Twig as `theme.*`
+ * (dashes become underscores) for HTML attributes such as bgcolor.
+ * Literal hex colours outside this block fail the build. */
+:root {
+  --accent: #14766a;
+  --accent-ink: #1f5a52;
+  --on-accent: #ffffff;
+  --ink: #1c3549;
+  --text: #49616f;
+  --muted: #5b6e7b;
+  --page: #eef2f2;
+  --surface: #ffffff;
+  --surface-tint: #f2f7f6;
+  --border: #e2eae9;
+  --border-strong: #cddfdb;
+  --warning: #d29b4a;
+  --warning-bg: #fff7eb;
+  --warning-ink: #856337;
+  /* Dark-mode overrides live in the layout media query, but their values stay
+   * here so the palette keeps one source. Best effort: clients may still
+   * invert colours on their own. */
+  --dark-page: #121a1d;
+  --dark-surface: #1a2427;
+  --dark-tint: #212d30;
+  --dark-ink: #e8f1ef;
+  --dark-muted: #9fb0b3;
+  --dark-border: #2e3d40;
+  --dark-accent: #7cd2c0;
+  --dark-warning-bg: #2a2119;
+  --dark-warning-ink: #ecc38d;
+}
+
+html, body { margin: 0; padding: 0; width: 100%; }
+/* word-break is inherited, so long names and URLs wrap instead of overflowing. */
+body { background-color: var(--page); font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.6; color: var(--ink); -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; word-break: break-word; overflow-wrap: break-word; }
+table { border-collapse: collapse; border-spacing: 0; }
+/* border-radius is ignored on tables using the collapsing border model, which
+   would square off the button border and the card corners. */
+.email-card, .email-details, .email-list, .email-kpi, .email-code-wrap, .email-button { border-collapse: separate; }
+td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+a { color: var(--accent); }
+.email-preheader { display: none; font-size: 1px; line-height: 1px; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; }
+.email-outer { width: 100%; background-color: var(--page); }
+.email-outer-pad { padding: 38px 16px 44px; }
+.email-container { width: 100%; max-width: 600px; margin: 0 auto; }
+.email-card { width: 100%; background-color: var(--surface); border: 1px solid var(--border); border-radius: 18px; }
+.email-header { padding: 29px 38px 25px; }
+.email-logo-mark { width: 35px; height: 35px; background-color: var(--accent); border-radius: 11px; text-align: center; vertical-align: middle; color: var(--on-accent); font-family: Arial, Helvetica, sans-serif; font-size: 21px; font-weight: 700; line-height: 35px; }
+.email-brand { padding-left: 11px; font-size: 17px; font-weight: 700; letter-spacing: -0.4px; color: var(--ink); }
+.email-top-border { border-top: 1px solid var(--border); }
+.email-body { padding: 35px 38px 40px; }
+.email-eyebrow { color: var(--accent); font-size: 11px; letter-spacing: 1.65px; text-transform: uppercase; font-weight: 700; padding-bottom: 15px; }
+.email-title { margin: 0 0 17px; color: var(--ink); font-size: 30px; line-height: 1.2; letter-spacing: -0.9px; font-weight: 700; }
+.email-lead { font-size: 16px; line-height: 1.7; color: var(--text); margin: 0 0 21px; }
+.email-text { font-size: 14px; line-height: 1.8; color: var(--text); margin: 0 0 19px; }
+.email-strong { font-weight: 700; color: var(--ink); }
+.email-space-16 { height: 16px; font-size: 0; line-height: 0; }
+.email-space-20 { height: 20px; font-size: 0; line-height: 0; }
+.email-space-28 { height: 28px; font-size: 0; line-height: 0; }
+.email-details { width: 100%; border: 1px solid var(--border); border-radius: 12px; background-color: var(--surface-tint); }
+.email-details-inner { padding: 23px 23px 17px; }
+.email-detail-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.9px; padding: 0 0 3px; font-weight: 700; }
+.email-detail-value { color: var(--ink); font-size: 15px; line-height: 1.55; font-weight: 700; padding-bottom: 14px; }
+.email-button-td { background-color: var(--accent); border: 1px solid var(--accent); border-radius: 9px; text-align: center; mso-padding-alt: 14px 23px; }
+.email-button-link { display: inline-block; padding: 13px 23px; font-size: 14px; line-height: 1.3; color: var(--on-accent); font-weight: 700; text-decoration: none; border-radius: 9px; }
+.email-button-ghost-td { border: 1px solid var(--border-strong); background-color: var(--surface); border-radius: 9px; text-align: center; mso-padding-alt: 14px 21px; }
+.email-button-ghost-link { display: inline-block; padding: 13px 21px; color: var(--accent-ink); font-size: 14px; line-height: 1.3; font-weight: 700; text-decoration: none; }
+/* The table shrink-wraps on desktop and the gap keeps the two actions apart;
+ * the layout media query turns both into full-width stacked blocks. */
+.email-actions { width: auto; }
+.email-action-cell { vertical-align: top; }
+.email-action-gap { width: 10px; font-size: 0; line-height: 0; }
+.email-action-help { color: var(--muted); font-size: 12px; line-height: 1.7; padding-top: 13px; }
+.email-notice { background-color: var(--surface-tint); border-left: 3px solid var(--accent); }
+.email-notice-td { padding: 15px 18px; color: var(--accent-ink); font-size: 13px; line-height: 1.7; }
+.email-notice-warning { background-color: var(--warning-bg); border-left: 3px solid var(--warning); }
+.email-notice-warning-td { padding: 15px 18px; color: var(--warning-ink); font-size: 13px; line-height: 1.7; }
+.email-list { width: 100%; border: 1px solid var(--border); border-radius: 12px; }
+.email-list-sep { border-top: 1px solid var(--border); }
+.email-list-cell { padding: 15px 17px; }
+.email-list-time { width: 62px; padding: 15px 0 15px 18px; vertical-align: top; color: var(--accent); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.email-list-title { color: var(--ink); font-size: 14px; line-height: 1.45; font-weight: 700; }
+.email-list-sub { color: var(--muted); font-size: 12px; line-height: 1.6; padding-top: 3px; }
+.email-kpi { background-color: var(--surface-tint); border-radius: 12px; }
+.email-kpi-cell { padding: 19px 20px; }
+.email-kpi-number { color: var(--accent); font-size: 29px; font-weight: 700; line-height: 1.1; letter-spacing: -1px; }
+.email-kpi-label { color: var(--muted); font-size: 12px; padding-top: 5px; }
+.email-code-wrap { background-color: var(--surface-tint); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+.email-code-cell { padding: 21px 20px; }
+.email-code { font-family: 'Courier New', Courier, monospace; color: var(--accent-ink); font-size: 34px; font-weight: 700; letter-spacing: 7px; line-height: 1.4; }
+.email-code-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 9px; }
+.email-card-foot { padding: 21px 38px 24px; border-top: 1px solid var(--border); }
+.email-card-foot-text { color: var(--muted); font-size: 12px; line-height: 1.7; }
+.email-footer { padding: 27px 20px 0; text-align: center; }
+.email-footer-brand { color: var(--muted); font-size: 12px; font-weight: 700; }
+.email-footer-text { color: var(--muted); font-size: 11px; line-height: 1.8; padding-top: 6px; }
+.email-footer-link { color: var(--muted); text-decoration: underline; }

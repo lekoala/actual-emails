@@ -1,0 +1,9 @@
+{# items: [{label: string, value: string}] - values are escaped by Twig #}
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-details"><tr><td class="email-details-inner">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+    {% for item in items %}
+    <tr><td class="email-detail-label">{{ item.label }}</td></tr>
+    <tr><td class="email-detail-value">{{ item.value }}</td></tr>
+    {% endfor %}
+  </table>
+</td></tr></table>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="{{ lang|default('en') }}" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>{{ subject }}</title>
+  <!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+  {# styles/email.css is inlined by export.html.twig; only non-inlinable rules live here. #}
+  <style type="text/css">
+    :root { color-scheme: light dark; supported-color-schemes: light dark; }
+    /* Stops iOS from restyling dates and addresses it auto-detects. */
+    a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+    @media screen and (max-width: 620px) {
+      .email-outer-pad { padding: 12px 8px 24px !important; }
+      .email-header { padding: 23px 24px 20px !important; }
+      .email-body { padding: 27px 24px 31px !important; }
+      .email-card-foot { padding: 18px 24px 20px !important; }
+      .email-title { font-size: 26px !important; }
+      /* Two actions stack full-width before translated labels get cramped. */
+      .email-actions, .email-actions tbody, .email-actions tr, .email-action-cell { display: block !important; width: 100% !important; }
+      .email-action-gap { display: block !important; width: 100% !important; height: 10px !important; font-size: 0 !important; line-height: 0 !important; }
+      .email-button-td, .email-button-ghost-td { display: block !important; }
+      .email-button-link, .email-button-ghost-link { display: block !important; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body, .email-outer { background-color: {{ theme.dark_page }} !important; }
+      .email-card, .email-list, .email-details, .email-kpi, .email-code-wrap { background-color: {{ theme.dark_surface }} !important; }
+      .email-notice { background-color: {{ theme.dark_tint }} !important; }
+      .email-notice-warning { background-color: {{ theme.dark_warning_bg }} !important; }
+      .email-title, .email-strong, .email-detail-value, .email-list-title, .email-kpi-number, .email-brand { color: {{ theme.dark_ink }} !important; }
+      .email-lead, .email-text, .email-card-foot-text, .email-footer-brand, .email-footer-text, .email-detail-label, .email-list-sub, .email-kpi-label, .email-action-help { color: {{ theme.dark_muted }} !important; }
+      .email-eyebrow, .email-code, .email-code-label, .email-notice-td, .email-button-ghost-link, .email-footer-link { color: {{ theme.dark_accent }} !important; }
+      .email-notice-warning-td { color: {{ theme.dark_warning_ink }} !important; }
+      .email-card, .email-top-border, .email-card-foot, .email-list, .email-list-sep, .email-details, .email-code-wrap { border-color: {{ theme.dark_border }} !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-preheader" aria-hidden="true">{{ preheader }}</div>
+  {# Filler stops inbox previews from pulling body text in after a short preheader. #}
+  <div class="email-preheader" aria-hidden="true">{% for i in 1..90 %}&#847;&zwnj;&nbsp;{% endfor %}</div>
+  <div role="article" aria-roledescription="email" aria-label="{{ subject }}">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-outer" bgcolor="{{ theme.page }}"><tr><td align="center" class="email-outer-pad">
+    <!--[if mso]><table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" width="600"><tr><td><![endif]-->
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-container">
+      <tr><td>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-card" bgcolor="{{ theme.surface }}">
+          <tr><td class="email-header">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td class="email-logo-mark" bgcolor="{{ theme.accent }}" width="35" height="35" aria-hidden="true">{{ brand.mark }}</td>
+              <td class="email-brand">{{ brand.name }}</td>
+            </tr></table>
+          </td></tr>
+          <tr><td class="email-top-border"></td></tr>
+          <tr><td class="email-body">
+            <div class="email-eyebrow">{{ eyebrow }}</div>
+            <h1 class="email-title">{{ title }}</h1>
+            {% block content %}{% endblock %}
+          </td></tr>
+          <tr><td class="email-card-foot">
+            <div class="email-card-foot-text">{{ footer_reason }} <a href="{{ brand.help_url }}">{{ brand.help_label }}</a></div>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+    <!--[if mso]></td></tr></table><![endif]-->
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-container"><tr><td class="email-footer">
+      <div class="email-footer-brand">{{ brand.name }}</div>
+      <div class="email-footer-text">{{ brand.footer_note }}<br>© {{ year }} {{ brand.name }} · <a class="email-footer-link" href="{{ brand.website }}">{{ brand.website_label }}</a></div>
+    </td></tr></table>
+  </td></tr></table>
+  </div>
+</body>
+</html>

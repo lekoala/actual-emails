@@ -1,0 +1,8 @@
+{% extends 'layout.txt.twig' %}
+{% block content %}Hello {{ recipient.first_name }},
+
+Your verification code: {{ security.code }}
+
+It expires in {{ security.minutes }} minutes. Never share it with anyone.
+
+Didn’t request this? You can ignore this message.{% endblock %}

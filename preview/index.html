@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actual Emails — Workshop</title>
+<style>
+:root{color-scheme:light;--ink:#1d3440;--muted:#70848a;--teal:#157c6b;--line:#e4eae9;--surface:#fff;--bg:#f5f7f7;--soft:#edf4f2;--shadow:0 12px 40px rgba(35,61,67,.08)}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:inherit}button{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid #31b29b;outline-offset:3px}
+.app-header{height:74px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:20px}
+.identity{display:flex;gap:13px;align-items:center;min-width:0}.mark{background:#14766a;color:white;border-radius:12px;width:37px;height:37px;display:grid;place-items:center;font-size:23px;font-weight:800;letter-spacing:-2px}
+.identity h1{font-size:17px;line-height:1;margin:0 0 4px;letter-spacing:-.4px}.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#7d9596}
+.top-meta{display:flex;gap:14px;align-items:center;color:var(--muted);font-size:12px}.version{background:var(--soft);color:#34776e;padding:5px 9px;border-radius:7px;font-weight:700}
+.layout{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:calc(100vh - 74px)}.sidebar{background:white;border-right:1px solid var(--line);padding:26px 18px}
+.sidebar-label{color:var(--muted);font-weight:800;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:0 12px;margin-bottom:13px}
+.message{display:flex;align-items:center;gap:12px;width:100%;border:1px solid transparent;background:transparent;text-align:left;border-radius:12px;cursor:pointer;padding:13px 12px;margin:5px 0;color:var(--ink)}
+.message:hover{background:#f4f8f6}.message[aria-current="true"]{border-color:#cae5db;background:#f0f7f3;box-shadow:inset 3px 0 #198575}
+.message-icon{font-size:17px;width:35px;height:35px;flex-shrink:0;display:grid;place-items:center;border-radius:10px;background:#eff3f3;color:#2a7771}
+.message-name{display:block;font-weight:750;font-size:13px}.message-sub{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.sidebar-footer{margin:26px 12px 0;border-top:1px solid var(--line);padding-top:22px;font-size:12px;color:var(--muted)}.sidebar-footer strong{color:var(--ink);display:block;margin-bottom:6px}
+.workspace{min-width:0}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 30px 18px;flex-wrap:wrap}
+.work-title{font-size:20px;letter-spacing:-.6px;font-weight:750;margin:0}.work-desc{color:var(--muted);font-size:12px;margin-top:4px}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toggle{padding:3px;border:1px solid #dbe6e5;border-radius:10px;background:white;display:flex}
+.toggle button{border:0;padding:8px 12px;cursor:pointer;border-radius:7px;background:transparent;color:#698080;font-size:12px;font-weight:700}
+.toggle button[aria-pressed="true"]{background:#e7f2ee;color:#167366}
+.open-link{font-size:12px;font-weight:750;text-decoration:none;border:1px solid #d8e3e1;background:#fff;border-radius:9px;padding:9px 13px}.open-link:hover{border-color:#9fcabc;color:#126d61}
+.preview-area{padding:12px 24px 30px;min-width:0}.preview-stage{width:100%;min-height:700px;max-width:1050px;margin:auto;border-radius:18px;background:#e8efed;padding:30px 18px;display:flex;justify-content:center;align-items:flex-start;border:1px solid #dce5e3;transition:background .15s}
+.preview-stage.phone{padding:25px 12px;background:#dfe8e6}.iframe-wrap{width:100%;max-width:760px;min-width:0;transition:max-width .2s;box-shadow:var(--shadow);background:white;border:1px solid #e2e8e7;border-radius:6px;overflow:hidden}
+.phone .iframe-wrap{max-width:375px;box-shadow:0 16px 50px rgba(30,58,61,.18);border:7px solid #23373a;border-radius:26px}
+iframe{display:block;width:100%;height:820px;border:0;background:#eef2f2}.phone iframe{height:760px}
+.description{max-width:1050px;margin:17px auto 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;color:var(--muted);font-size:12px}
+.description strong{color:var(--ink)}.description a{color:#177469;text-decoration:underline}
+.smallcaps{font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:10px;color:#849998}
+@media(max-width:950px){.layout{grid-template-columns:240px minmax(0,1fr)}.app-header{padding:0 19px}.sidebar{padding:22px 12px}.toolbar{padding:16px}.preview-area{padding:8px 12px 24px}.preview-stage{padding:15px 6px}}
+@media(max-width:650px){.app-header{height:68px}.top-meta span:not(.version){display:none}.layout{display:block}.sidebar{padding:10px 12px;border-right:0;border-bottom:1px solid var(--line)}.sidebar-label,.sidebar-footer{display:none}.messages{display:flex;gap:7px;overflow:auto}.message{flex:0 0 auto;width:auto;padding:9px 10px;margin:0}.message-sub{display:none}.message-icon{height:28px;width:28px}.message-name{font-size:12px}.toolbar{padding:17px 14px}.work-title{font-size:18px}.preview-stage{min-height:520px}.description{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="identity"><div class="mark" aria-hidden="true">a</div><div><h1>actual emails</h1><div class="eyebrow">Transactional by default</div></div></div>
+  <div class="top-meta"><span>Component workshop</span><span class="version">prototype 0.1</span></div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-label">Reference messages</div>
+  <nav class="messages" aria-label="Choose a template">
+    <button class="message" data-id="appointment" aria-current="true"><span class="message-icon" aria-hidden="true">✓</span><span><span class="message-name">Appointment</span><span class="message-sub">Details + action + notice</span></span></button>
+    <button class="message" data-id="invitation" aria-current="false"><span class="message-icon" aria-hidden="true">↗</span><span><span class="message-name">Invitation</span><span class="message-sub">Two actions + expiry</span></span></button>
+    <button class="message" data-id="digest" aria-current="false"><span class="message-icon" aria-hidden="true">≡</span><span><span class="message-name">Daily summary</span><span class="message-sub">KPI + list</span></span></button>
+    <button class="message" data-id="security" aria-current="false"><span class="message-icon" aria-hidden="true">#</span><span><span class="message-name">Security code</span><span class="message-sub">OTP code + warning</span></span></button>
+    <button class="message" data-id="reset" aria-current="false"><span class="message-icon" aria-hidden="true">↺</span><span><span class="message-name">Password reset</span><span class="message-sub">One action + fallback URL</span></span></button>
+  </nav>
+  <div class="sidebar-footer"><strong>One base, five situations.</strong>All examples are fictitious. Design, components and plain-text versions live in this repository.</div>
+</aside>
+<main class="workspace">
+  <div class="toolbar">
+    <div><h2 class="work-title" id="work-title">Appointment confirmation</h2><div class="work-desc" id="work-desc">A short, reassuring message with the essential details.</div></div>
+    <div class="tools"><div class="toggle" role="group" aria-label="Preview size"><button id="desktop" aria-pressed="true" type="button">Desktop</button><button id="mobile" aria-pressed="false" type="button">Mobile</button></div><a class="open-link" href="../dist/appointment.html" id="open-email" target="_blank" rel="noopener">Open HTML ↗</a></div>
+  </div>
+  <div class="preview-area"><div class="preview-stage" id="stage"><div class="iframe-wrap"><iframe id="email" src="../dist/appointment.html" title="Preview: Appointment confirmation" loading="eager"></iframe></div></div>
+    <div class="description"><div><span class="smallcaps">Preview only</span> · Browser rendering does not replace Outlook/Gmail/Apple Mail testing.</div><div><a id="plain" href="../dist/appointment.txt" target="_blank" rel="noopener">Show plain-text version ↗</a></div></div>
+  </div>
+</main>
+</div>
+<script>
+(function(){
+  const choices = {
+    appointment: ['Appointment confirmation', 'A short, reassuring message with the essential details.'],
+    invitation: ['Invitation to collaborate', 'A clear proposal, two actions and an expiry date.'],
+    digest: ['Daily summary', 'A KPI, a list and a link back to the service.'],
+    security: ['Sign-in code', 'Focus on the code, its expiry and security guidance.'],
+    reset: ['Password reset', 'One action, a visible fallback URL and an expiry warning.']
+  };
+  const frame=document.getElementById('email'), open=document.getElementById('open-email'), plain=document.getElementById('plain');
+  document.querySelectorAll('.message').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.id;
+    document.querySelectorAll('.message').forEach(x=>x.setAttribute('aria-current',String(x===b)));
+    document.getElementById('work-title').textContent=choices[id][0];
+    document.getElementById('work-desc').textContent=choices[id][1];
+    frame.src='../dist/'+id+'.html';frame.title='Preview: '+choices[id][0];
+    open.href='../dist/'+id+'.html';plain.href='../dist/'+id+'.txt';
+  }));
+  document.querySelectorAll('.toggle button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.toggle button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    document.getElementById('stage').classList.toggle('phone',b.id==='mobile');
+  }));
+})();
+</script>
+</body></html>

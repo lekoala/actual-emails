@@ -1,0 +1,16 @@
+Your appointment on 12 November is confirmed
+
+Hello Camille,
+
+Your appointment with Dr Sophie Martin is confirmed.
+
+Date: Thursday 12 November 2026 at 10:30 am
+With: Dr Sophie Martin · General practice
+Location: Linden Tree Practice · Namur
+View my appointment: https://example.org/appointments/EXAMPLE
+
+Something came up? Please let the practice know early enough.
+
+You are receiving this message because you booked an appointment.
+Need help? https://example.org/help
+Actual Care · https://example.org/

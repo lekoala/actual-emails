@@ -1,0 +1,5 @@
+{% if warning|default(false) %}
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-notice-warning"><tr><td class="email-notice-warning-td">{{ message }}</td></tr></table>
+{% else %}
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-notice"><tr><td class="email-notice-td">{{ message }}</td></tr></table>
+{% endif %}

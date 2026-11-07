@@ -1,0 +1,10 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+<p class="email-lead">Hello {{ recipient.first_name }}, your appointment with <strong class="email-strong">{{ appointment.practitioner }}</strong> is confirmed.</p>
+{{ include('components/details.html.twig', {'items': appointment.details}) }}
+{{ include('components/spacer.html.twig', {'size': 28}) }}
+{{ include('components/button.html.twig', {'label': 'View my appointment', 'url': appointment.url}) }}
+<div class="email-action-help">You can view or change your appointment from this link.</div>
+{{ include('components/spacer.html.twig', {'size': 28}) }}
+{{ include('components/notice.html.twig', {'message': 'Something came up? Please let the practice know early enough so the slot can be freed.'}) }}
+{% endblock %}

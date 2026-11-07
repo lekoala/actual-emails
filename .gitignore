@@ -1,0 +1,13 @@
+# Dependencies (composer.lock is committed)
+/vendor/
+
+# Local working notes
+/.temp/
+
+# Tooling / OS
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

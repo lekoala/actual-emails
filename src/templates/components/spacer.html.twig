@@ -1,0 +1,5 @@
+{# Valid sizes: 16, 20, 28; spacer is a table rather than a layout margin.
+   The lookup keeps literal class names in the source so class scanners still
+   see them, and an invalid size fails at render instead of emitting no rule. #}
+{% set classes = {16: 'email-space-16', 20: 'email-space-20', 28: 'email-space-28'} %}
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td class="{{ classes[size|default(20)] }}">&nbsp;</td></tr></table>
