@@ -17,7 +17,7 @@ composer build   # render dist/*.html and dist/*.txt
 composer test    # fail if dist/ is stale, then run the output smoke test
 ```
 
-No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then runs the output smoke test: structure, inlined styles, class/stylesheet drift and HTML/plain-text link parity.
+No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then runs the output smoke test: structure, inlined styles, class/stylesheet drift and HTML/plain-text link parity. A render test then exercises the inliner itself: character-entity fidelity (the preheader filler depends on it), media-query preservation, and agreement between Outlook's `bgcolor` attribute and the inlined `background-color`.
 
 ## Project layout
 
@@ -33,6 +33,7 @@ No Symfony app, Node process or `package.json` is needed. `dist/` is generated a
 | `src/fixtures/demo.json` | Fictitious data for the examples, including brand strings |
 | `bin/build.php` | Renders `dist/`; `--check` compares without writing |
 | `tests/smoke.php` | Structural checks on the rendered output |
+| `tests/render.php` | Render-level checks: inliner fidelity, media queries, `bgcolor`/CSS agreement |
 
 ## What is inside
 

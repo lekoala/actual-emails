@@ -38,7 +38,8 @@
 }
 
 html, body { margin: 0; padding: 0; width: 100%; }
-/* word-break is inherited, so long names and URLs wrap instead of overflowing. */
+/* Spacing on divs uses margin, never padding: Word-based Outlook ignores div padding.
+ * word-break is inherited, so long names and URLs wrap instead of overflowing. */
 body { background-color: var(--page); font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.6; color: var(--ink); -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; word-break: break-word; overflow-wrap: break-word; }
 table { border-collapse: collapse; border-spacing: 0; }
 /* border-radius is ignored on tables using the collapsing border model, which
@@ -57,14 +58,14 @@ a { color: var(--accent); }
 .email-brand { padding-left: 11px; font-size: 17px; font-weight: 700; letter-spacing: -0.4px; color: var(--ink); }
 .email-top-border { border-top: 1px solid var(--border); }
 .email-body { padding: 35px 38px 40px; }
-.email-eyebrow { color: var(--accent); font-size: 11px; letter-spacing: 1.65px; text-transform: uppercase; font-weight: 700; padding-bottom: 15px; }
+.email-eyebrow { color: var(--accent); font-size: 11px; letter-spacing: 1.65px; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; }
 .email-title { margin: 0 0 17px; color: var(--ink); font-size: 30px; line-height: 1.2; letter-spacing: -0.9px; font-weight: 700; }
 .email-lead { font-size: 16px; line-height: 1.7; color: var(--text); margin: 0 0 21px; }
 .email-text { font-size: 14px; line-height: 1.8; color: var(--text); margin: 0 0 19px; }
 .email-strong { font-weight: 700; color: var(--ink); }
-.email-space-16 { height: 16px; font-size: 0; line-height: 0; }
-.email-space-20 { height: 20px; font-size: 0; line-height: 0; }
-.email-space-28 { height: 28px; font-size: 0; line-height: 0; }
+.email-space-16 { mso-line-height-rule: exactly; height: 16px; line-height: 16px; font-size: 16px; }
+.email-space-20 { mso-line-height-rule: exactly; height: 20px; line-height: 20px; font-size: 20px; }
+.email-space-28 { mso-line-height-rule: exactly; height: 28px; line-height: 28px; font-size: 28px; }
 .email-details { width: 100%; border: 1px solid var(--border); border-radius: 12px; background-color: var(--surface-tint); }
 .email-details-inner { padding: 23px 23px 17px; }
 .email-detail-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.9px; padding: 0 0 3px; font-weight: 700; }
@@ -78,7 +79,7 @@ a { color: var(--accent); }
 .email-actions { width: auto; }
 .email-action-cell { vertical-align: top; }
 .email-action-gap { width: 10px; font-size: 0; line-height: 0; }
-.email-action-help { color: var(--muted); font-size: 12px; line-height: 1.7; padding-top: 13px; }
+.email-action-help { color: var(--muted); font-size: 12px; line-height: 1.7; margin-top: 13px; }
 .email-action-help-link { color: var(--accent); text-decoration: underline; }
 .email-notice { background-color: var(--surface-tint); border-left: 3px solid var(--accent); }
 .email-notice-td { padding: 15px 18px; color: var(--accent-ink); font-size: 13px; line-height: 1.7; }
@@ -89,18 +90,18 @@ a { color: var(--accent); }
 .email-list-cell { padding: 15px 17px; }
 .email-list-time { width: 62px; padding: 15px 0 15px 18px; vertical-align: top; color: var(--accent); font-size: 13px; font-weight: 700; white-space: nowrap; }
 .email-list-title { color: var(--ink); font-size: 14px; line-height: 1.45; font-weight: 700; }
-.email-list-sub { color: var(--muted); font-size: 12px; line-height: 1.6; padding-top: 3px; }
+.email-list-sub { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 3px; }
 .email-kpi { background-color: var(--surface-tint); border-radius: 12px; }
 .email-kpi-cell { padding: 19px 20px; }
 .email-kpi-number { color: var(--accent); font-size: 29px; font-weight: 700; line-height: 1.1; letter-spacing: -1px; }
-.email-kpi-label { color: var(--muted); font-size: 12px; padding-top: 5px; }
+.email-kpi-label { color: var(--muted); font-size: 12px; margin-top: 5px; }
 .email-code-wrap { background-color: var(--surface-tint); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
 .email-code-cell { padding: 21px 20px; }
 .email-code { font-family: 'Courier New', Courier, monospace; color: var(--accent-ink); font-size: 34px; font-weight: 700; letter-spacing: 7px; line-height: 1.4; }
-.email-code-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 9px; }
+.email-code-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 9px; }
 .email-card-foot { padding: 21px 38px 24px; border-top: 1px solid var(--border); }
 .email-card-foot-text { color: var(--muted); font-size: 12px; line-height: 1.7; }
 .email-footer { padding: 27px 20px 0; text-align: center; }
 .email-footer-brand { color: var(--muted); font-size: 12px; font-weight: 700; }
-.email-footer-text { color: var(--muted); font-size: 11px; line-height: 1.8; padding-top: 6px; }
+.email-footer-text { color: var(--muted); font-size: 11px; line-height: 1.8; margin-top: 6px; }
 .email-footer-link { color: var(--muted); text-decoration: underline; }

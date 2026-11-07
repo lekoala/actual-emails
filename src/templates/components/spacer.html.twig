@@ -1,5 +1,7 @@
-{# Valid sizes: 16, 20, 28; spacer is a table rather than a layout margin.
+{# Valid sizes: 16, 20, 28. A div with an exact line-height, not a table:
+   Word-based Outlook merges adjacent tables (the spacer row then inherits its
+   neighbour's background and borders) and ignores CSS height on cells.
    The lookup keeps literal class names in the source so class scanners still
    see them, and an invalid size fails at render instead of emitting no rule. #}
 {% set classes = {16: 'email-space-16', 20: 'email-space-20', 28: 'email-space-28'} %}
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td class="{{ classes[size|default(20)] }}">&nbsp;</td></tr></table>
+<div class="{{ classes[size|default(20)] }}" aria-hidden="true">&nbsp;</div>
