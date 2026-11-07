@@ -25,7 +25,7 @@
           {"label": "With", "value": "Dr Sophie Martin · General practice"},
           {"label": "Location", "value": "Linden Tree Practice · Namur"}
         ],
-        "url": "https://example.org/appointments/EXAMPLE"
+        "url": "https://example.org/appointments/EXAMPLE?view=details&lang=en"
       }
     },
     "invitation": {

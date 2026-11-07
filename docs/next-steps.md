@@ -8,4 +8,4 @@
 6. **Dark mode**: the provided `prefers-color-scheme` block is a best effort. Measure how each target client renders it before promising a theme; forced dark mode is not consistently controllable.
 7. **Accessibility/security**: semantic content, good contrast, visible fallback URLs for security-critical actions, email-minimal personal data.
 
-No delivery queue, database, i18n catalog, live template editor, SMTP transport or other application infrastructure should be introduced into this prototype.
+No delivery queue, database, i18n catalog, live template editor, SMTP transport or other application infrastructure should be introduced into this kit.

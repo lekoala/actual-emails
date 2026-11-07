@@ -16,7 +16,9 @@ $stale = [];
 $fixture = json_decode((string) file_get_contents($root . '/src/fixtures/demo.json'), true, 512, JSON_THROW_ON_ERROR);
 $twig = new Environment(new FilesystemLoader($root . '/src/templates'), [
     'strict_variables' => true,
-    'autoescape' => 'html',
+    // By file name: *.html.twig is HTML-escaped; *.txt.twig is plain text, where
+    // HTML entities would corrupt URLs (`&amp;`) and names (`&#039;`).
+    'autoescape' => 'name',
     'cache' => false,
 ]);
 $twig->addExtension(new CssInlinerExtension());

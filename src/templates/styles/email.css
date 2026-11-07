@@ -1,4 +1,4 @@
-/* Actual Emails 0.1 prototype - email-safe design rules.
+/* Actual Emails 0.1 - email-safe design rules.
  * Source selectors are simple by design. The HTML is table-based because
  * many email clients do not implement browser CSS layout consistently.
  * Never assume this sheet is directly linked from emails: inline on export.

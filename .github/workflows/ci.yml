@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.5']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: composer validate --strict
+      - run: composer install --no-interaction --no-progress
+      - name: Lint PHP
+        run: for f in bin/*.php src/*.php tests/*.php; do php -l "$f" || exit 1; done
+      # Fails if dist/ is stale, then runs the output smoke test.
+      - run: composer test

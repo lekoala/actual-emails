@@ -1,8 +1,8 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
 <p class="email-lead">Hello {{ recipient.first_name }}, we received a request to reset your password. Choose a new one with the button below.</p>
-{{ include('components/button.html.twig', {'label': 'Choose a new password', 'url': reset.url}) }}
-{{ include('components/subcopy.html.twig', {'url': reset.url}) }}
-{{ include('components/spacer.html.twig', {'size': 28}) }}
-{{ include('components/notice.html.twig', {'warning': true, 'message': 'This link is valid for ' ~ reset.minutes ~ ' minutes and can be used once. If you did not request it, you can ignore this email; your password will not change.'}) }}
+{{ include('components/button.html.twig', {'label': 'Choose a new password', 'url': reset.url}, with_context = false) }}
+{{ include('components/subcopy.html.twig', {'url': reset.url}, with_context = false) }}
+{{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
+{{ include('components/notice.html.twig', {'warning': true, 'message': 'This link is valid for ' ~ reset.minutes ~ ' minutes and can be used once. If you did not request it, you can ignore this email; your password will not change.'}, with_context = false) }}
 {% endblock %}

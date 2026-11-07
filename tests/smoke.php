@@ -15,7 +15,9 @@ $knownClasses = array_fill_keys(array_map('strtolower', $classMatch[1]), true);
 
 $htmlLinks = static function (string $html): array {
     preg_match_all('/href="([^"]+)"/', $html, $matches);
-    return array_values(array_unique(array_filter($matches[1], static fn (string $url): bool => str_starts_with($url, 'http'))));
+    // Attributes are HTML-escaped (`&amp;`); compare the URL the client will actually open.
+    $urls = array_map(static fn (string $url): string => html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8'), $matches[1]);
+    return array_values(array_unique(array_filter($urls, static fn (string $url): bool => str_starts_with($url, 'http'))));
 };
 $textLinks = static function (string $text): array {
     preg_match_all('~https?://[^\s<>"]+~', $text, $matches);
@@ -57,6 +59,10 @@ foreach (array_keys($fixture['messages']) as $name) {
     }
     if (strlen($plain) < 90 || preg_match('/<\/?[a-z][\s>]/i', $plain)) {
         $errors[] = "$name plain text appears missing or invalid";
+    }
+    // Plain text must never be HTML-escaped (e.g. `&amp;` in a link).
+    if (preg_match('/&(?:amp|lt|gt|quot|#0?39|#x27);/', $plain)) {
+        $errors[] = "$name plain text contains HTML entities";
     }
     if (!str_contains($plain, 'https://example.org/')) {
         $errors[] = "$name plain text lacks a usable link";

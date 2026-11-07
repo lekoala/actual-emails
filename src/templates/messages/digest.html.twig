@@ -5,9 +5,9 @@
   <div class="email-kpi-number">{{ digest.count }}</div>
   <div class="email-kpi-label">Appointments scheduled today</div>
 </td></tr></table>
-{{ include('components/spacer.html.twig', {'size': 20}) }}
-{{ include('components/digest_list.html.twig', {'items': digest['items']}) }}
-{{ include('components/spacer.html.twig', {'size': 28}) }}
-{{ include('components/button.html.twig', {'label': 'Open my calendar', 'url': digest.url}) }}
+{{ include('components/spacer.html.twig', {'size': 20}, with_context = false) }}
+{{ include('components/digest_list.html.twig', {'items': digest['items']}, with_context = false) }}
+{{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
+{{ include('components/button.html.twig', {'label': 'Open my calendar', 'url': digest.url}, with_context = false) }}
 <div class="email-action-help">To protect personal data, this message contains no clinical information.</div>
 {% endblock %}

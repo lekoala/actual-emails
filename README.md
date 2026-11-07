@@ -1,8 +1,8 @@
-# Actual Emails · prototype 0.1
+# Actual Emails · 0.1
 
-A small transactional email design kit, inspired by the philosophy of Actual CSS: content-first, clean defaults, just enough components and no frontend build chain. The output HTML is **standalone**; the included Twig renderer is only the prototype's authoring workflow.
+A small transactional email design kit, inspired by the philosophy of Actual CSS: content-first, clean defaults, just enough components and no frontend build chain. The output HTML is **standalone**; the included Twig renderer is only the authoring workflow.
 
-## Open the prototype
+## Open the preview
 
 1. Open **`preview/index.html`** in a browser. Select one of the four example messages and switch between the desktop and mobile viewports.
 2. Open **`dist/*.html`** to see finished emails, or **`dist/*.txt`** for their plain-text counterparts.
@@ -82,7 +82,7 @@ See [docs/architecture.md](docs/architecture.md) for the proposed boundaries and
 
 ## Quality status
 
-**Prototype, not production-certified.** The gallery is a browser preview, not a Gmail/Outlook/Apple Mail test matrix. Further work should include Outlook Word, Outlook web/new, Gmail web/mobile, Apple Mail, long text, image blocking (no images currently), forced dark mode and translated message lengths. The provided dark styles are best effort and may be overridden by client-driven inversion. This repository includes an output smoke test, not actual client screenshot testing.
+**Not production-certified yet.** The gallery is a browser preview, not a client test matrix. Real sends have been checked in Gmail web, Gmail Android and Outlook web/new (November 2026). Still to validate: Outlook for Windows (Word engine), Apple Mail/iOS, long text, image blocking (no images currently), forced dark mode and translated message lengths. The provided dark styles are best effort and may be overridden by client-driven inversion. This repository includes an output smoke test, not actual client screenshot testing.
 
 ## Reference ideas / attribution
 

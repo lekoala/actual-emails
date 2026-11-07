@@ -3,7 +3,7 @@
 ## Core vs adapters
 
 - **Core**: semantic email-safe HTML patterns (tables with `role=presentation`), documented class names, a single CSS source and standalone rendered examples.
-- **Demo adapter**: minimal Twig templates and fixtures in this prototype. Twig is not a requirement for consuming final HTML/CSS patterns.
+- **Demo adapter**: minimal Twig templates and fixtures in this repository. Twig is not a requirement for consuming final HTML/CSS patterns.
 - **Application**: owns translations, mail subjects, recipient preference, per-tenant identity, links, scheduling, delivery and message content.
 
 ## Component catalog (v0.1)
@@ -21,7 +21,7 @@
 
 - Source CSS is `src/templates/styles/email.css`. Export passes it to the Twig `inline_css` filter, applied to the **full HTML document**; the layout's media queries and client resets stay in `<head>`.
 - Mobile padding, title size and action stacking live in a `<style>` media query. The stacking uses `display:block` on the action cells: clients that honour media queries stack, the rest keep the desktop row.
-- One 600px column, fluid outside; an Outlook conditional wrapper pins desktop width. This is a *prototype*, not a fully tested Outlook VML implementation.
+- One 600px column, fluid outside; an Outlook conditional wrapper pins card and footer to the desktop width. There is no VML: rounded corners degrade to square in Word-based Outlook.
 - Email typography falls back to Arial/Helvetica; there are no external fonts or images to block. `word-break` is inherited from `body` so long names and URLs wrap.
 - `format-detection` and an `a[x-apple-data-detectors]` reset stop iOS from restyling dates and addresses.
 - Dark mode is a best-effort light/dark pair: `--dark-*` tokens feed a `prefers-color-scheme` block. Client-driven inversion can still override it; test before promising a specific theme.

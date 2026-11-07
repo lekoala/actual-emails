@@ -2,8 +2,8 @@
 {% block content %}
 <p class="email-lead">Hello {{ recipient.first_name }}, <strong class="email-strong">{{ invitation.sender }}</strong> has invited you to join their workspace.</p>
 <p class="email-text">Find everything your team shares in one simple, secure place.</p>
-{{ include('components/details.html.twig', {'items': invitation.details}) }}
-{{ include('components/spacer.html.twig', {'size': 28}) }}
-{{ include('components/actions.html.twig', {'primary': {'label': 'Accept invitation', 'url': invitation.url}, 'secondary': {'label': 'Learn more', 'url': brand.help_url}}) }}
+{{ include('components/details.html.twig', {'items': invitation.details}, with_context = false) }}
+{{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
+{{ include('components/actions.html.twig', {'primary': {'label': 'Accept invitation', 'url': invitation.url}, 'secondary': {'label': 'Learn more', 'url': brand.help_url}}, with_context = false) }}
 <div class="email-action-help">This invitation is valid until {{ invitation.expires }}. If you weren’t expecting it, you can ignore this email.</div>
 {% endblock %}

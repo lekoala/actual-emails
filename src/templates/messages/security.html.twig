@@ -1,10 +1,10 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
 <p class="email-lead">Hello {{ recipient.first_name }}, use the code below to confirm your sign-in.</p>
-{{ include('components/spacer.html.twig', {'size': 16}) }}
-{{ include('components/code.html.twig', {'code': security.code, 'label': 'Your verification code'}) }}
-{{ include('components/spacer.html.twig', {'size': 20}) }}
+{{ include('components/spacer.html.twig', {'size': 16}, with_context = false) }}
+{{ include('components/code.html.twig', {'code': security.code, 'label': 'Your verification code'}, with_context = false) }}
+{{ include('components/spacer.html.twig', {'size': 20}, with_context = false) }}
 <p class="email-text">This code expires in <strong class="email-strong">{{ security.minutes }} minutes</strong>. Never share it with anyone, not even a team member.</p>
-{{ include('components/spacer.html.twig', {'size': 16}) }}
-{{ include('components/notice.html.twig', {'warning': true, 'message': 'Didn’t request this? You can ignore this message; no action is needed.'}) }}
+{{ include('components/spacer.html.twig', {'size': 16}, with_context = false) }}
+{{ include('components/notice.html.twig', {'warning': true, 'message': 'Didn’t request this? You can ignore this message; no action is needed.'}, with_context = false) }}
 {% endblock %}

@@ -37,6 +37,7 @@
       .email-lead, .email-text, .email-card-foot-text, .email-footer-brand, .email-footer-text, .email-detail-label, .email-list-sub, .email-kpi-label, .email-action-help { color: {{ theme.dark_muted }} !important; }
       .email-eyebrow, .email-code, .email-code-label, .email-notice-td, .email-button-ghost-link, .email-footer-link, .email-action-help-link { color: {{ theme.dark_accent }} !important; }
       .email-notice-warning-td { color: {{ theme.dark_warning_ink }} !important; }
+      .email-button-ghost-td { background-color: {{ theme.dark_surface }} !important; border-color: {{ theme.dark_border }} !important; }
       .email-card, .email-top-border, .email-card-foot, .email-list, .email-list-sep, .email-details, .email-code-wrap { border-color: {{ theme.dark_border }} !important; }
     }
   </style>
@@ -69,11 +70,12 @@
         </table>
       </td></tr>
     </table>
-    <!--[if mso]></td></tr></table><![endif]-->
+    {# The MSO wrapper spans card and footer so Word-based Outlook pins both to 600px. #}
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-container"><tr><td class="email-footer">
       <div class="email-footer-brand">{{ brand.name }}</div>
       <div class="email-footer-text">{{ brand.footer_note }}<br>© {{ year }} {{ brand.name }} · <a class="email-footer-link" href="{{ brand.website }}">{{ brand.website_label }}</a></div>
     </td></tr></table>
+    <!--[if mso]></td></tr></table><![endif]-->
   </td></tr></table>
   </div>
 </body>
