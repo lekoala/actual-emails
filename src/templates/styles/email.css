@@ -79,6 +79,7 @@ a { color: var(--accent); }
 .email-action-cell { vertical-align: top; }
 .email-action-gap { width: 10px; font-size: 0; line-height: 0; }
 .email-action-help { color: var(--muted); font-size: 12px; line-height: 1.7; padding-top: 13px; }
+.email-action-help-link { color: var(--accent); text-decoration: underline; }
 .email-notice { background-color: var(--surface-tint); border-left: 3px solid var(--accent); }
 .email-notice-td { padding: 15px 18px; color: var(--accent-ink); font-size: 13px; line-height: 1.7; }
 .email-notice-warning { background-color: var(--warning-bg); border-left: 3px solid var(--warning); }
