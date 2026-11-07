@@ -13,6 +13,7 @@ $root = dirname(__DIR__);
 // --check: render in memory and fail if the committed dist/ is stale.
 $check = in_array('--check', $argv, true);
 $stale = [];
+$expectedFiles = [];
 $fixture = json_decode((string) file_get_contents($root . '/src/fixtures/demo.json'), true, 512, JSON_THROW_ON_ERROR);
 $twig = new Environment(new FilesystemLoader($root . '/src/templates'), [
     'strict_variables' => true,
@@ -40,17 +41,38 @@ foreach ($fixture['messages'] as $name => $message) {
     $txt = $twig->render('messages/' . $name . '.txt.twig', $data);
     $outputs = [$name . '.html' => $html, $name . '.txt' => trim($txt) . "\n"];
     foreach ($outputs as $file => $content) {
+        $expectedFiles[$file] = true;
         $path = $root . '/dist/' . $file;
         if ($check) {
             if (!is_file($path) || file_get_contents($path) !== $content) {
                 $stale[] = $file;
             }
         } else {
-            file_put_contents($path, $content);
+            if (file_put_contents($path, $content) === false) {
+                throw new RuntimeException('Could not write export: ' . $file);
+            }
         }
     }
     if (!$check) {
         printf("Built: %s.html + %s.txt\n", $name, $name);
+    }
+}
+
+// Only generated HTML/text exports are managed here; leave other files alone.
+// --check must report obsolete exports without deleting them.
+foreach (['html', 'txt'] as $extension) {
+    foreach (glob($root . '/dist/*.' . $extension) ?: [] as $path) {
+        $file = basename($path);
+        if (!is_file($path) || isset($expectedFiles[$file])) {
+            continue;
+        }
+        if ($check) {
+            $stale[] = $file . ' (obsolete)';
+        } elseif (!unlink($path)) {
+            throw new RuntimeException('Could not remove obsolete export: ' . $file);
+        } else {
+            printf("Removed obsolete export: %s\n", $file);
+        }
     }
 }
 

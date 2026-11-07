@@ -19,6 +19,8 @@ composer test    # fail if dist/ is stale, then run the output smoke test
 
 No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then runs the output smoke test: structure, inlined styles, class/stylesheet drift and HTML/plain-text link parity. A render test then exercises the inliner itself: character-entity fidelity (the preheader filler depends on it), media-query preservation, and agreement between Outlook's `bgcolor` attribute and the inlined `background-color`.
 
+`composer build` also removes obsolete `.html` and `.txt` exports from `dist/` after a message is removed or renamed. `--check` reports those files without deleting them; other file types are left untouched.
+
 ## Project layout
 
 | Path | Role |
