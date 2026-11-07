@@ -1,17 +1,19 @@
-You’re invited to join Linden Tree Practice
-
 Hello Alex,
 
 Sophie Martin has invited you to join their workspace.
 
 Workspace: Linden Tree Practice
 Your role: Collaborator
-Accept invitation: https://example.org/invitations/EXAMPLE
-Learn more: https://example.org/help
+Accept invitation
+https://example.org/invitations/EXAMPLE
+Learn more
+https://example.org/help
 
 This invitation is valid until 19 November 2026.
 If you weren’t expecting it, you can ignore this email.
 
 You are receiving this message because your address was invited to join a workspace.
-Need help? https://example.org/help
-Actual Care · https://example.org/
+Need help?
+https://example.org/help
+Actual Care
+https://example.org/

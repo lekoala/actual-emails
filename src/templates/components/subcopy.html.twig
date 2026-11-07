@@ -1,4 +1,4 @@
 {# Visible fallback for clients where the button fails or is forwarded.
    A real, styled link: clients auto-link bare URLs anyway, in their own colour.
    It stays selectable for copy-paste; never a second button. #}
-<div class="email-action-help">{{ label|default('If the button does not work, copy this link into your browser:') }}<br><a class="email-action-help-link" href="{{ url }}">{{ url }}</a></div>
+<div class="email-action-help">{{ label }}<br><a class="email-action-help-link" href="{{ url }}">{{ url }}</a></div>

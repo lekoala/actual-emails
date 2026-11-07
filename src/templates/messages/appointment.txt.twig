@@ -4,6 +4,7 @@
 Your appointment with {{ appointment.practitioner }} is confirmed.
 
 {% for item in appointment.details %}{{ item.label }}: {{ item.value }}
-{% endfor %}View my appointment: {{ appointment.url }}
+{% endfor %}View my appointment
+{{ appointment.url }}
 
 Something came up? Please let the practice know early enough.{% endblock %}

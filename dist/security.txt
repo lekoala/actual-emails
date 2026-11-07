@@ -1,5 +1,3 @@
-Your Actual Care verification code
-
 Hello Camille,
 
 Your verification code: 384916
@@ -9,5 +7,7 @@ It expires in 10 minutes. Never share it with anyone.
 Didn’t request this? You can ignore this message.
 
 This code was sent to you following a sign-in request.
-Need help? https://example.org/help
-Actual Care · https://example.org/
+Need help?
+https://example.org/help
+Actual Care
+https://example.org/

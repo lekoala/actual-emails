@@ -6,6 +6,7 @@
     "website_label": "Website",
     "help_url": "https://example.org/help",
     "help_label": "Need help?",
+    "fallback_link_label": "If the button does not work, copy this link into your browser:",
     "footer_note": "Useful messages, no unnecessary noise."
   },
   "year": 2026,

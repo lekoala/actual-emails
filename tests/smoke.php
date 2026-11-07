@@ -67,6 +67,14 @@ foreach (array_keys($fixture['messages']) as $name) {
     if (!str_contains($plain, 'https://example.org/')) {
         $errors[] = "$name plain text lacks a usable link";
     }
+    if (str_starts_with($plain, $fixture['messages'][$name]['subject'])) {
+        $errors[] = "$name plain text repeats the transport subject";
+    }
+    foreach (preg_split('/\R/', $plain) as $line) {
+        if (str_contains($line, 'https://') && !preg_match('~^https://\S+$~', $line)) {
+            $errors[] = "$name plain-text URL must be on its own line";
+        }
+    }
 
     preg_match_all('/class="([^"]*)"/', $html, $classAttributes);
     $used = preg_split('/\s+/', implode(' ', $classAttributes[1]), -1, PREG_SPLIT_NO_EMPTY);

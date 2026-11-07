@@ -4,7 +4,7 @@ A small transactional email design kit, inspired by the philosophy of Actual CSS
 
 ## Open the preview
 
-1. Open **`preview/index.html`** in a browser. Select one of the four example messages and switch between the desktop and mobile viewports.
+1. Open **`preview/index.html`** in a browser. Select one of the five example messages and switch between the desktop and mobile viewports.
 2. Open **`dist/*.html`** to see finished emails, or **`dist/*.txt`** for their plain-text counterparts.
 
 All demonstration data is fictitious and URLs point to `example.org`; they are intentionally non-functional. The preview loads no external assets. It is a development tool only: browser rendering is not validation in Gmail, Apple Mail or Outlook.
@@ -27,7 +27,7 @@ No Symfony app, Node process or `package.json` is needed. `dist/` is generated a
 | --- | --- |
 | `src/templates/styles/email.css` | Single source of truth for styles and theme tokens |
 | `src/templates/layout.html.twig` | Shared shell: preheader, header, body, footer, media queries and dark mode |
-| `src/templates/layout.txt.twig` | Shared plain-text shell: subject, body, footer and help link |
+| `src/templates/layout.txt.twig` | Shared plain-text shell: body, footer and help link; the host supplies the subject header |
 | `src/templates/components/` | Presentational partials (button, actions, details, notice, code, digest list, spacer) |
 | `src/templates/messages/` | One `.html.twig` + `.txt.twig` pair per example message; text versions extend the shared shell |
 | `src/templates/export.html.twig` | Applies `inline_css` to the **whole document** |
@@ -75,10 +75,12 @@ The `--dark-*` tokens feed the `prefers-color-scheme: dark` block in the layout.
 
 - Typography and spacing: `src/templates/styles/email.css`.
 - Shared shell: `src/templates/layout.html.twig`; shared text shell: `src/templates/layout.txt.twig`.
-- Layout chrome strings (logo mark, help label, footer note) are brand parameters in `src/fixtures/demo.json`, not markup, so they can be translated.
+- Layout chrome strings (logo mark, help label, fallback-link label, footer note) are brand parameters in `src/fixtures/demo.json`, not markup, so they can be translated. `subcopy` requires an explicit translated `label` and `url`; callers that relied on its former English default must now supply the label.
 - Example messages: `src/templates/messages/`.
 - Fixture data: `src/fixtures/demo.json`, then `composer build`.
 - `actions` places one or two buttons side by side and stacks them full-width below 620px; keep labels short and check translated lengths at 320px anyway.
+- `digest_list` requires a `title` per row; `time` and `subtitle` are optional. Lists without times omit the time column; mixed lists keep that column aligned. The text version also accepts untimed rows.
+- Plain-text bodies omit the subject and put each URL on its own line below its label.
 
 ## Integration direction
 

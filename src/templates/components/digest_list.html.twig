@@ -1,8 +1,10 @@
+{# Keep the same column count throughout a list, even with mixed timed/untimed rows. #}
+{% set has_time = items|filter(item => item.time is defined and item.time)|length > 0 %}
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-list">
   {% for item in items %}
   <tr>
-    <td class="email-list-time{{ loop.first ? '' : ' email-list-sep' }}" valign="top">{{ item.time }}</td>
-    <td class="email-list-cell{{ loop.first ? '' : ' email-list-sep' }}"><div class="email-list-title">{{ item.title }}</div><div class="email-list-sub">{{ item.subtitle }}</div></td>
+    {% if has_time %}<td class="email-list-time{{ loop.first ? '' : ' email-list-sep' }}" valign="top">{{ item.time|default('') }}</td>{% endif %}
+    <td class="email-list-cell{{ loop.first ? '' : ' email-list-sep' }}"><div class="email-list-title">{{ item.title }}</div>{% if item.subtitle is defined and item.subtitle %}<div class="email-list-sub">{{ item.subtitle }}</div>{% endif %}</td>
   </tr>
   {% endfor %}
 </table>

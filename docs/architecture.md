@@ -10,11 +10,11 @@
 
 - `button` — principal / secondary; HTML table shape intended to survive Outlook.
 - `actions` — optional second, short CTA; full-width and stacked below 620px.
-- `subcopy` — visible fallback URL after a primary action, for forwarded or text-only views.
+- `subcopy` — visible fallback URL after a primary action, for forwarded or text-only views. Both `url` and translated `label` are required; there is no English default.
 - `details` — labeled key/value rows (appointment, invitation).
 - `notice` — information/warning; meaning always in the text, not color alone.
 - `code` — large copyable authentication code.
-- `digest_list` — repeating time + description lines.
+- `digest_list` — repeating description lines; `title` is required, `time` and `subtitle` are optional. The time column is omitted when no row has a non-empty time; mixed lists keep an empty time cell on untimed rows so all descriptions align.
 - `spacer` — explicit allowed vertical spacings (16, 20, 28).
 
 ## CSS and compatibility
@@ -36,11 +36,24 @@
 
 1. Keep the host application's delivery pipeline (intent → composer → transport) unchanged.
 2. Copy `layout`, `layout.txt`, CSS (with its `:root` theme tokens), `src/theme.php` and only the used components into the host application's email template directory; resolve tokens before `inline_css`.
-3. Keep one message template per delivery intent, existing i18n catalogs, fixed locale and absolute URLs. Move the layout chrome strings (logo mark, help label, footer note, website label) into the intent payload or the Twig globals instead of editing markup.
+3. Keep one message template per delivery intent, existing i18n catalogs, fixed locale and absolute URLs. Move the layout chrome strings (logo mark, help label, fallback-link label, footer note, website label) into the intent payload or the Twig globals instead of editing markup. Pass the translated fallback sentence as `subcopy.label` explicitly; the demo uses `brand.fallback_link_label`. Other English copy in the example messages is demonstration content to replace with the host's existing translations.
 4. Add `twig/cssinliner-extra` and `twig/extra-bundle` in the Symfony project if needed; test real compiled HTML.
-5. Adapt the host project's template checks (class discovery, inline-style rules) so classes in the email CSS are discoverable. Do **not** add global exceptions allowing handcrafted inline styles, and check that classes built from variables (`email-space-{{ size }}`) are still recognised.
+5. Adapt the host project's template checks (class discovery, inline-style rules) so classes in the email CSS are discoverable, including CSS stored under `templates/` rather than `assets/`. Do **not** add global exceptions allowing handcrafted inline styles, and check that classes built from variables (`email-space-{{ size }}`) are still recognised.
 6. Preserve the host application's fixture/tests contract: every message type in every supported locale with `strict_variables`.
-7. Pair each HTML message with a meaningful text version that extends `layout.txt` and keeps exactly the same links.
+7. Pair each HTML message with a meaningful text version that extends `layout.txt` and keeps exactly the same links. The text layout contains the body and footer only: the host still supplies the subject to the transport's `Subject` header. Put each URL on its own line below its label.
+
+## Integration feedback and adaptation choices
+
+The first host integration reported needs beyond the demo defaults. The following boundaries apply when copying the kit:
+
+- **Inlining**: the kit continues to export with `inline_css` on the whole document. A host that already uses `TijsVerkoyen\CssToInlineStyles` directly can use the same underlying engine without installing a Twig filter or Symfony bundle. After rendering with filename-based autoescape and strict variables, call `$inliner->convert($html, $theme['css'])` on the complete document, never a fragment. Preserve the layout's `<head>` rules and run equivalent render checks; this does not require marking user text `raw`.
+- **Theme resolution**: resolve the stylesheet once per theme/version, rather than on every send. The demo resolver also enforces the no-literal-hex rule; a host may move that check to its stylesheet/build tests, while retaining unknown-token failures and keeping cached CSS and Twig tokens from the same theme version.
+- **Light-only hosts**: there is currently no automatic light-only mode. In a copied layout, set both color-scheme meta tags and both `:root` scheme declarations to `light`, and remove the `prefers-color-scheme: dark` block together with any unused `--dark-*` tokens. Removing tokens alone fails with strict variables because the layout still reads them. A future kit option should distinguish a deliberately absent dark palette from an incomplete palette and test both, rather than silently accept missing colours. A light declaration cannot promise to prevent client-driven inversion.
+- **Brand images**: the kit keeps the text mark and no remote image dependencies. A hosted-logo API is deferred because it conflicts with that contract. The integrating host owns any image policy it introduces, including URL longevity and fallback text. The pilot used a PNG at twice its displayed size, explicit HTML `width`/`height`, a non-empty brand-name `alt`, and a light background for a dark-lettered logo. These are integration choices to validate with blocked images and forced dark mode, not a kit compatibility guarantee. Do not assume that `alt` reproduces a text header, or that an unversioned URL alone guarantees long-term availability.
+- **Button and fallback**: keep `button` and `subcopy` separate for now; a combined `fallback` option needs another concrete consumer before becoming an abstraction.
+- **Outlook thin lines**: the pilot's cell-background workaround has no Outlook 2019 validation yet. Keep it as a candidate in [next-steps.md](next-steps.md), including matching corner radii and dark overrides; browser screenshots do not close this issue.
+
+Migration for existing callers: supply `label` on every `subcopy` include (including calls with `with_context = false`). The digest change accepts existing timed rows unchanged. Plain-text exports no longer repeat the subject, and URLs now occupy separate lines.
 
 ## Scope exclusion
 

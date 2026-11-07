@@ -4,8 +4,10 @@
 {{ invitation.sender }} has invited you to join their workspace.
 
 {% for item in invitation.details %}{{ item.label }}: {{ item.value }}
-{% endfor %}Accept invitation: {{ invitation.url }}
-Learn more: {{ brand.help_url }}
+{% endfor %}Accept invitation
+{{ invitation.url }}
+Learn more
+{{ brand.help_url }}
 
 This invitation is valid until {{ invitation.expires }}.
 If you weren’t expecting it, you can ignore this email.{% endblock %}

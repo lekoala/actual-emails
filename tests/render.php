@@ -258,8 +258,63 @@ foreach ($fixture['messages'] as $name => $message) {
     }
 }
 
+// Required, translated fallback copy must fail closed when a caller omits it.
+try {
+    $twig->render('components/subcopy.html.twig', ['url' => 'https://example.org/action']);
+    $errors[] = 'subcopy accepted a missing label under strict_variables';
+} catch (\Twig\Error\RuntimeError $error) {
+    if (!str_contains($error->getMessage(), 'label')) {
+        throw $error;
+    }
+}
+$fallback = $twig->render('components/subcopy.html.twig', [
+    'url' => 'https://example.org/action?a=1&b=2',
+    'label' => 'Copiez ce lien <test> & continuez :',
+]);
+if (!str_contains($fallback, 'Copiez ce lien &lt;test&gt; &amp; continuez :') || str_contains($fallback, 'If the button')) {
+    $errors[] = 'subcopy did not preserve and escape the supplied translation';
+}
+
+// Lists without times use the full width; mixed lists retain aligned columns.
+$listCases = [
+    'untimed' => [[['title' => 'Update'], ['title' => 'Reminder', 'time' => '', 'subtitle' => ''], ['title' => 'Notice', 'time' => null]], 1, 0],
+    'mixed' => [[['title' => 'Update'], ['title' => 'Meeting', 'time' => '09:00', 'subtitle' => 'Online']], 2, 1],
+    'timed' => [[['title' => 'Meeting', 'time' => '09:00', 'subtitle' => 'Online']], 2, 1],
+    'empty' => [[], 0, 0],
+];
+foreach ($listCases as $case => [$items, $columns, $subtitles]) {
+    $listHtml = $twig->render('components/digest_list.html.twig', ['items' => $items]);
+    $document = new DOMDocument();
+    $document->loadHTML($listHtml);
+    $xpath = new DOMXPath($document);
+    foreach ($xpath->query('//tr') as $row) {
+        if ($xpath->query('./td', $row)->length !== $columns) {
+            $errors[] = "digest $case: inconsistent column count";
+        }
+    }
+    if ($columns < 2 && str_contains($listHtml, 'email-list-time')) {
+        $errors[] = "digest $case: unexpected time column";
+    }
+    if ($xpath->query('//div[@class="email-list-sub"]')->length !== $subtitles) {
+        $errors[] = "digest $case: unexpected subtitle markup";
+    }
+    // Exercise the same optional fields through the complete HTML/text pair.
+    $data = array_merge($fixture, $fixture['messages']['digest']);
+    $data['digest']['items'] = $items;
+    $twig->render('export.html.twig', $data + ['template' => 'messages/digest.html.twig']);
+    $plain = $twig->render('messages/digest.txt.twig', $data);
+    if (preg_match_all('/^- .+$/m', $plain) !== count($items) || !str_contains($plain, "\nOpen my calendar\n")) {
+        $errors[] = "digest $case: plain-text list entries and action must occupy separate lines";
+    }
+    foreach ($items as $item) {
+        if (!str_contains($plain, $item['title'])) {
+            $errors[] = "digest $case: plain text lost a list item";
+        }
+    }
+}
+
 if ($errors !== []) {
     fwrite(STDERR, implode("\n", $errors) . "\n");
     exit(1);
 }
-printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size and bgcolor/CSS agreement on %d messages\n", count($fixture['messages']));
+printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size, bgcolor/CSS agreement on %d messages; translated subcopy and optional digest fields\n", count($fixture['messages']));

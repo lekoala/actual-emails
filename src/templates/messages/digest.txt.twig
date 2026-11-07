@@ -3,7 +3,8 @@
 
 You have {{ digest.count }} appointments scheduled today.
 
-{% for item in digest['items'] %}- {{ item.time }} — {{ item.title }} ({{ item.subtitle }})
-{% endfor %}Open my calendar: {{ digest.url }}
+{% for item in digest['items'] %}- {% if item.time is defined and item.time %}{{ item.time }} — {% endif %}{{ item.title }}{% if item.subtitle is defined and item.subtitle %} ({{ item.subtitle }}){% endif %}{{ '\n' -}}
+{% endfor %}Open my calendar
+{{ digest.url }}
 
 To protect personal data, this message contains no clinical information.{% endblock %}

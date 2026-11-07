@@ -1,5 +1,3 @@
-Your day on Thursday 12 November
-
 Hello Sophie,
 
 You have 3 appointments scheduled today.
@@ -7,10 +5,13 @@ You have 3 appointments scheduled today.
 - 09:00 — Scheduled consultation (Linden Tree Practice · 30 minutes)
 - 10:30 — Follow-up appointment (Linden Tree Practice · 45 minutes)
 - 14:00 — Video consultation (Online · 30 minutes)
-Open my calendar: https://example.org/calendar
+Open my calendar
+https://example.org/calendar
 
 To protect personal data, this message contains no clinical information.
 
 You are receiving this summary based on your notification preferences.
-Need help? https://example.org/help
-Actual Care · https://example.org/
+Need help?
+https://example.org/help
+Actual Care
+https://example.org/
