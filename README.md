@@ -17,7 +17,7 @@ composer build   # render dist/*.html and dist/*.txt
 composer test    # fail if dist/ is stale, then run the output smoke test
 ```
 
-No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then runs the output smoke test: structure, inlined styles, class/stylesheet drift and HTML/plain-text link parity. A render test then exercises the inliner itself: character-entity fidelity (the preheader filler depends on it), media-query preservation, and agreement between Outlook's `bgcolor` attribute and the inlined `background-color`.
+No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then lints the source stylesheet, runs the output smoke test (structure, inlined styles, class/stylesheet drift, HTML/plain-text link parity) and a render test. The render test exercises the inliner itself: character-entity fidelity (the preheader filler depends on it), media-query preservation, the conditional Outlook wrapper width, agreement between Outlook's `bgcolor` attribute and the inlined `background-color`, no `padding` on `div`/`p`, and a 20 KB per-message budget. The stylesheet lint rejects `!important`, short or uppercase hex, colour keywords, id selectors, duplicate properties and remote assets in `email.css`.
 
 `composer build` also removes obsolete `.html` and `.txt` exports from `dist/` after a message is removed or renamed. `--check` reports those files without deleting them; other file types are left untouched.
 
@@ -35,7 +35,8 @@ No Symfony app, Node process or `package.json` is needed. `dist/` is generated a
 | `src/fixtures/demo.json` | Fictitious data for the examples, including brand strings |
 | `bin/build.php` | Renders `dist/`; `--check` compares without writing |
 | `tests/smoke.php` | Structural checks on the rendered output |
-| `tests/render.php` | Render-level checks: inliner fidelity, media queries, `bgcolor`/CSS agreement |
+| `tests/css.php` | Stylesheet lint: hex, ids, duplicates, `!important`, remote assets |
+| `tests/render.php` | Render-level checks: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size, `bgcolor`/CSS agreement |
 
 ## What is inside
 

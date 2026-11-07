@@ -20,7 +20,8 @@ $theme = actual_emails_theme($css);
 
 $twig = new Environment(new FilesystemLoader($root . '/src/templates'), [
     'strict_variables' => true,
-    'autoescape' => 'html',
+    // Same strategy as bin/build.php: HTML templates escaped, text plain.
+    'autoescape' => 'name',
     'cache' => false,
 ]);
 $twig->addExtension(new CssInlinerExtension());
@@ -95,13 +96,13 @@ $probe = <<<'TWIG'
 {% endapply %}
 TWIG;
 
-$probeTwig = new Environment(new ArrayLoader(['probe' => $probe]), [
+$probeTwig = new Environment(new ArrayLoader(['probe.html.twig' => $probe]), [
     'strict_variables' => true,
-    'autoescape' => 'html',
+    'autoescape' => 'name',
     'cache' => false,
 ]);
 $probeTwig->addExtension(new CssInlinerExtension());
-$probeHtml = $probeTwig->render('probe');
+$probeHtml = $probeTwig->render('probe.html.twig');
 
 $inner = static function (string $id) use ($probeHtml): ?string {
     return preg_match('~<p id="' . $id . '"[^>]*>(.*?)</p>~s', $probeHtml, $match) ? $match[1] : null;
@@ -168,6 +169,10 @@ foreach ($fixture['messages'] as $name => $message) {
         $errors[] = "$name: <style> block moved into the body";
     }
     $styleText = $styleBlocks->length === 1 ? $styleBlocks->item(0)->textContent : '';
+    // iOS auto-links dates and addresses in blue; the reset must survive.
+    if ($styleText !== '' && !str_contains($styleText, 'x-apple-data-detectors')) {
+        $errors[] = "$name: missing the iOS data-detector reset in the style block";
+    }
 
     $blocks = media_blocks($styleText);
     if (count($blocks) !== 2) {
@@ -195,6 +200,38 @@ foreach ($fixture['messages'] as $name => $message) {
             $errors[] = "$name: @media leaked into a style attribute";
             break;
         }
+    }
+
+    // Word-based Outlook ignores media queries, so the conditional desktop
+    // wrapper must stay at the container width. The two values live in
+    // different files; drift breaks Outlook silently.
+    $container = $xpath->query('//table[contains(concat(" ", normalize-space(@class), " "), " email-container ")]')->item(0);
+    preg_match('/max-width:\s*(\d+)px/', $container?->getAttribute('style') ?? '', $containerWidth);
+    if (!isset($containerWidth[1])) {
+        $errors[] = "$name: no max-width on .email-container";
+    } else {
+        preg_match_all('/<!--\[if mso\]><table[^>]*width="(\d+)"/', $html, $msoWidths);
+        if ($msoWidths[1] === []) {
+            $errors[] = "$name: missing the conditional MSO wrapper table";
+        } elseif ($msoWidths[1][0] !== $containerWidth[1]) {
+            $errors[] = "$name: MSO wrapper width {$msoWidths[1][0]} disagrees with container max-width {$containerWidth[1]}";
+        }
+    }
+
+    // Outlook Word ignores padding on div and p; spacing must come from a td,
+    // a margin, or the spacer component.
+    foreach (['div', 'p'] as $tag) {
+        foreach ($xpath->query('//' . $tag . '[@style]') as $element) {
+            if (preg_match('/(?:^|;)\s*padding[a-z-]*\s*:/', strtolower($element->getAttribute('style')))) {
+                $class = trim($element->getAttribute('class'));
+                $errors[] = "$name: <$tag" . ($class !== '' ? " class=\"$class\"" : '') . '> has inline padding, ignored by Outlook Word';
+            }
+        }
+    }
+
+    // iOS Apple Mail truncates long messages with "download remaining".
+    if (strlen($html) > 20000) {
+        $errors[] = sprintf('%s: rendered HTML is %d bytes, over the 20 KB iOS partial-download threshold', $name, strlen($html));
     }
 
     // Outlook Word ignores inline CSS and reads bgcolor; every bgcolor must
@@ -225,4 +262,4 @@ if ($errors !== []) {
     fwrite(STDERR, implode("\n", $errors) . "\n");
     exit(1);
 }
-printf("PASS: inliner fidelity, media queries and bgcolor/CSS agreement on %d messages\n", count($fixture['messages']));
+printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size and bgcolor/CSS agreement on %d messages\n", count($fixture['messages']));

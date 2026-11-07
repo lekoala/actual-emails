@@ -15,6 +15,7 @@
     "build": "@php bin/build.php",
     "test": [
       "@php bin/build.php --check",
+      "@php tests/css.php",
       "@php tests/smoke.php",
       "@php tests/render.php"
     ]
