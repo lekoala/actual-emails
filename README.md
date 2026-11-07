@@ -83,7 +83,7 @@ See [docs/architecture.md](docs/architecture.md) for the proposed boundaries and
 
 ## Quality status
 
-**Not production-certified yet.** The gallery is a browser preview, not a client test matrix. Real sends have been checked in Gmail web, Gmail Android and Outlook web/new (November 2026). Still to validate: Outlook for Windows (Word engine), Apple Mail/iOS, long text, image blocking (no images currently), forced dark mode and translated message lengths. The provided dark styles are best effort and may be overridden by client-driven inversion. This repository includes an output smoke test, not actual client screenshot testing.
+**Not production-certified yet.** The gallery is a browser preview, not a client test matrix. Real sends (November 2026, via SMTP and testi@ screenshots) render correctly in Gmail web, Gmail Android (light and dark), Outlook web/new, iPhone 12 mini, Roundcube and AOL (preheader). Outlook 2019 (Word engine) renders the layout, spacing and buttons correctly, with one known artefact: see [docs/next-steps.md](docs/next-steps.md). Still to validate: the other messages in Outlook 2019/365, Apple Mail desktop, long text, forced dark mode and translated message lengths. The provided dark styles are best effort and may be overridden by client-driven inversion. This repository includes an output smoke test, not actual client screenshot testing.
 
 ## Reference ideas / attribution
 

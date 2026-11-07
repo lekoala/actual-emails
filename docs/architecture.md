@@ -25,7 +25,10 @@
 - Email typography falls back to Arial/Helvetica; there are no external fonts or images to block. `word-break` is inherited from `body` so long names and URLs wrap.
 - `format-detection` and an `a[x-apple-data-detectors]` reset stop iOS from restyling dates and addresses.
 - Dark mode is a best-effort light/dark pair: `--dark-*` tokens feed a `prefers-color-scheme` block. Client-driven inversion can still override it; test before promising a specific theme.
-- Buttons include background on their table cell, but Word-based Outlook differences may need further testing.
+- Buttons include background on their table cell; checked in Outlook 2019 (square corners, correct padding).
+- Word-based Outlook rules learned from real renders:
+  - Never place two tables directly next to each other: Word merges them, and the merged rows inherit a neighbour's background and borders. Vertical gaps use the `spacer` component, a `div` with `mso-line-height-rule: exactly` and a line-height/font-size equal to its height (a `font-size: 0` spacer collapses).
+  - Spacing on a `div` uses `margin`, never `padding`: Word ignores `div` padding. Padding belongs on `td`.
 - Border radius, letter spacing and some colors may degrade in individual clients without losing information.
 - Do not interpret a Chromium screenshot as evidence that the email renders well in Outlook/Gmail.
 
