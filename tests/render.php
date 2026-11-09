@@ -147,7 +147,7 @@ if (stripos(ltrim($probeHtml), '<!doctype html>') !== 0) {
 // 2. Media queries and 3. Outlook bgcolor agreement, per rendered message.
 // ---------------------------------------------------------------------------
 foreach ($fixture['messages'] as $name => $message) {
-    $data = array_merge($fixture, $message);
+    $data = array_replace_recursive($fixture, $message);
     unset($data['messages']);
     $html = $twig->render('export.html.twig', $data + ['template' => 'messages/' . $name . '.html.twig']);
 
@@ -299,7 +299,7 @@ foreach ($listCases as $case => [$items, $columns, $subtitles]) {
         $errors[] = "digest $case: unexpected subtitle markup";
     }
     // Exercise the same optional fields through the complete HTML/text pair.
-    $data = array_merge($fixture, $fixture['messages']['digest']);
+    $data = array_replace_recursive($fixture, $fixture['messages']['digest']);
     $data['digest']['items'] = $items;
     $twig->render('export.html.twig', $data + ['template' => 'messages/digest.html.twig']);
     $plain = $twig->render('messages/digest.txt.twig', $data);
@@ -313,8 +313,67 @@ foreach ($listCases as $case => [$items, $columns, $subtitles]) {
     }
 }
 
+// Header: the text mark by default; an optional logo replaces only the mark.
+// Both branches keep the brand name as text, so blocked images lose nothing.
+$headerData = array_replace_recursive($fixture, $fixture['messages']['reset']);
+unset($headerData['messages'], $headerData['brand']['logo']);
+$logo = ['url' => 'https://example.org/email/logo.png', 'width' => 35, 'height' => 35];
+$headerCases = [
+    'text mark' => $headerData,
+    'logo' => array_replace_recursive($headerData, ['brand' => ['logo' => $logo]]),
+];
+foreach ($headerCases as $case => $data) {
+    $html = $twig->render('export.html.twig', $data + ['template' => 'messages/reset.html.twig']);
+    $document = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $document->loadHTML($html);
+    libxml_clear_errors();
+    $xpath = new DOMXPath($document);
+    $header = $xpath->query('//td[contains(concat(" ", @class, " "), " email-header ")]')->item(0);
+    if ($header === null) {
+        $errors[] = "header $case: missing .email-header";
+        continue;
+    }
+    $brand = $xpath->query('.//td[contains(concat(" ", @class, " "), " email-brand ")]', $header)->item(0);
+    if (trim($brand?->textContent ?? '') !== $fixture['brand']['name']) {
+        $errors[] = "header $case: the brand name must stay as visible text";
+    }
+    $images = $xpath->query('.//img', $header);
+    $marks = $xpath->query('.//td[contains(concat(" ", @class, " "), " email-logo-mark ")]', $header);
+    if ($case === 'text mark') {
+        if ($images->length !== 0 || $marks->length !== 1) {
+            $errors[] = 'header text mark: expected the text mark and no image';
+        }
+        continue;
+    }
+    if ($images->length !== 1 || $marks->length !== 0) {
+        $errors[] = 'header logo: expected one image replacing the text mark';
+        continue;
+    }
+    $image = $images->item(0);
+    if ($image->getAttribute('src') !== $logo['url']
+        || $image->getAttribute('width') !== '35'
+        || $image->getAttribute('height') !== '35'
+        || !$image->hasAttribute('alt') || $image->getAttribute('alt') !== '') {
+        $errors[] = 'header logo: image needs the given src, HTML width/height and an empty alt (the name is beside it)';
+    }
+    $cell = $image->parentNode;
+    if (!$cell instanceof DOMElement || $cell->getAttribute('width') !== '35') {
+        $errors[] = 'header logo: the image cell must carry the logo width for Outlook';
+    }
+}
+// A logo without explicit dimensions must fail at render, not ship unsized.
+try {
+    $twig->render('export.html.twig', array_replace_recursive($headerData, ['brand' => ['logo' => ['url' => $logo['url']]]]) + ['template' => 'messages/reset.html.twig']);
+    $errors[] = 'header logo: accepted a logo without width/height under strict_variables';
+} catch (\Twig\Error\RuntimeError $error) {
+    if (!str_contains($error->getMessage(), 'width')) {
+        throw $error;
+    }
+}
+
 if ($errors !== []) {
     fwrite(STDERR, implode("\n", $errors) . "\n");
     exit(1);
 }
-printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size, bgcolor/CSS agreement on %d messages; translated subcopy and optional digest fields\n", count($fixture['messages']));
+printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size, bgcolor/CSS agreement on %d messages; translated subcopy, optional digest fields and both header branches\n", count($fixture['messages']));

@@ -1,7 +1,7 @@
 # Actual Emails — agent contract
 
 - This is a design system for **transactional email**, not a sending service.
-- No JavaScript, tracking pixels, external fonts, embedded forms, or remote image dependencies in delivered email.
+- No JavaScript, tracking pixels, external fonts or embedded forms in delivered email. No functional dependency on remote images: an email stays complete and readable when images are blocked. The only image is the optional `brand.logo` symbol, beside the brand name kept as text; never per-recipient image URLs.
 - Keep the email markup one-column, table-based, and degradable without CSS. Treat Outlook Word as a separate compatibility target.
 - All samples have HTML and meaningful plain-text counterparts.
 - Source-of-truth styles: `src/templates/styles/email.css`; do not hand-edit `dist`.

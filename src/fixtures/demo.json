@@ -35,6 +35,7 @@
       "eyebrow": "Invitation to collaborate",
       "title": "Welcome to the team.",
       "footer_reason": "You are receiving this message because your address was invited to join a workspace.",
+      "brand": {"logo": {"url": "assets/logo.png", "width": 35, "height": 35}},
       "recipient": {"first_name": "Alex"},
       "invitation": {
         "sender": "Sophie Martin",

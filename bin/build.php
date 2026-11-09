@@ -33,7 +33,8 @@ foreach ($fixture['messages'] as $name => $message) {
     if (!preg_match('/^[a-z0-9_-]+$/', $name)) {
         throw new RuntimeException('Unsafe fixture name: ' . $name);
     }
-    $data = array_merge($fixture, $message);
+    // Recursive so a message can add one brand option (e.g. `brand.logo`) without repeating the brand.
+    $data = array_replace_recursive($fixture, $message);
     unset($data['messages']);
 
     // Applying inline_css to the entire document preserves the layout's table structure.
@@ -55,6 +56,23 @@ foreach ($fixture['messages'] as $name => $message) {
     }
     if (!$check) {
         printf("Built: %s.html + %s.txt\n", $name, $name);
+    }
+}
+
+// Demo images are copied next to the exports so the gallery stays offline.
+// The fixture references them relatively; a sending host uses absolute HTTPS URLs.
+foreach (glob($root . '/src/assets/*.png') ?: [] as $source) {
+    $file = 'assets/' . basename($source);
+    $path = $root . '/dist/' . $file;
+    $content = (string) file_get_contents($source);
+    if ($check) {
+        if (!is_file($path) || file_get_contents($path) !== $content) {
+            $stale[] = $file;
+        }
+    } elseif ((!is_dir(dirname($path)) && !mkdir(dirname($path))) || file_put_contents($path, $content) === false) {
+        throw new RuntimeException('Could not copy asset: ' . $file);
+    } else {
+        printf("Copied: %s\n", $file);
     }
 }
 

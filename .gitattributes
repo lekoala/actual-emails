@@ -9,6 +9,7 @@
 *.md     text eol=lf diff=markdown
 *.json   text eol=lf
 *.lock   text eol=lf -diff
+*.png    binary
 
 # Generated output, committed only to ease evaluation (do not hand-edit).
 /dist/** linguist-generated=true

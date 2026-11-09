@@ -54,7 +54,13 @@
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-card" bgcolor="{{ theme.surface }}">
           <tr><td class="email-header">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+              {#~ Optional brand symbol: replaces the text mark only. The name stays as text,
+                  so the image is decorative (empty alt) and the header survives blocked images. #}
+              {%~ if brand.logo is defined and brand.logo %}
+              <td class="email-logo-cell" width="{{ brand.logo.width }}" valign="middle"><img class="email-logo" src="{{ brand.logo.url }}" width="{{ brand.logo.width }}" height="{{ brand.logo.height }}" alt=""></td>
+              {%~ else %}
               <td class="email-logo-mark" bgcolor="{{ theme.accent }}" width="35" height="35" aria-hidden="true">{{ brand.mark }}</td>
+              {%~ endif %}
               <td class="email-brand">{{ brand.name }}</td>
             </tr></table>
           </td></tr>

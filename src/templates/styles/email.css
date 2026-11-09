@@ -55,6 +55,9 @@ a { color: var(--accent); }
 .email-card { width: 100%; background-color: var(--surface); border: 1px solid var(--border); border-radius: 18px; }
 .email-header { padding: 29px 38px 25px; }
 .email-logo-mark { width: 35px; height: 35px; background-color: var(--accent); border-radius: 11px; text-align: center; vertical-align: middle; color: var(--on-accent); font-family: Arial, Helvetica, sans-serif; font-size: 21px; font-weight: 700; line-height: 35px; }
+/* Optional brand symbol: size comes from the HTML attributes (Outlook ignores CSS sizes on images). */
+.email-logo-cell { vertical-align: middle; }
+.email-logo { display: block; }
 .email-brand { padding-left: 11px; font-size: 17px; font-weight: 700; letter-spacing: -0.4px; color: var(--ink); }
 .email-top-border { border-top: 1px solid var(--border); }
 .email-body { padding: 35px 38px 40px; }

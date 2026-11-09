@@ -47,8 +47,24 @@ foreach (array_keys($fixture['messages']) as $name) {
     if (str_contains($html, 'var(--')) {
         $errors[] = "$name HTML still contains an unresolved var() token";
     }
-    if (preg_match('/<script\b|<iframe\b|<img\b[^>]+src=["\']https?:/i', $html)) {
-        $errors[] = "$name includes a forbidden script/iframe/remote image";
+    if (preg_match('/<script\b|<iframe\b/i', $html)) {
+        $errors[] = "$name includes a forbidden script/iframe";
+    }
+    // Demo images are local files copied into dist/, so the gallery never shows a broken image.
+    preg_match_all('/<img\b[^>]*>/i', $html, $images);
+    foreach ($images[0] as $image) {
+        foreach (['width="[1-9]\d*"', 'height="[1-9]\d*"', 'alt="[^"]*"'] as $attribute) {
+            if (!preg_match('/\s' . $attribute . '/', $image)) {
+                $errors[] = "$name image lacks $attribute: $image";
+            }
+        }
+        if (!preg_match('/\ssrc="([^"]+)"/', $image, $src) || preg_match('~^(?:[a-z]+:|//)~i', $src[1]) || !is_file("$root/dist/" . $src[1])) {
+            $errors[] = "$name demo image must reference a local file in dist/: $image";
+        }
+    }
+    // Blocked images must not remove the brand: the name stays as header text.
+    if (!str_contains(preg_replace('/<img\b[^>]*>/i', '', $html), '>' . htmlspecialchars($fixture['brand']['name']) . '</td>')) {
+        $errors[] = "$name header loses the brand name when images are blocked";
     }
     // A secondary-style primary CTA is a real regression (caller context leak).
     if (substr_count($html, 'class="email-button-ghost-td"') > substr_count($html, 'class="email-button-td"')) {
