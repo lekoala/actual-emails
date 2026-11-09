@@ -176,12 +176,12 @@ if (stripos(ltrim($probeHtml), '<!doctype html>') !== 0) {
 $renderCases = [];
 foreach ($themeTwigs as $themeName => $themeTwig) {
     foreach ($fixture['messages'] as $messageName => $message) {
-        $renderCases[$messageName . ($themeName === '' ? '' : "--$themeName")] = [$themeTwig, $messageName, $message];
+        $renderCases[$messageName . ($themeName === '' ? '' : "--$themeName")] = [$themeTwig, $messageName, array_replace_recursive($message, $fixture['themes'][$themeName] ?? [])];
     }
 }
 foreach ($renderCases as $name => [$caseTwig, $messageName, $message]) {
     $data = array_replace_recursive($fixture, $message);
-    unset($data['messages']);
+    unset($data['messages'], $data['themes']);
     $html = $caseTwig->render('export.html.twig', $data + ['template' => 'messages/' . $messageName . '.html.twig']);
 
     $document = new DOMDocument();

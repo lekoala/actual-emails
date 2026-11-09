@@ -8,10 +8,10 @@ Valid until: 19 November 2026
 Accept invitation
 https://example.org/invitations/EXAMPLE
 
-How invitations work
-https://example.org/help
+Decline
+https://example.org/invitations/EXAMPLE/decline
 
-Not expecting this invitation? You can ignore this email; no account will be created.
+Not expecting this invitation? You can also ignore this email; no account is created.
 
 You are receiving this message because your address was invited to join a workspace.
 Need help?

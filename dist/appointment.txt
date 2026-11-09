@@ -2,10 +2,9 @@ Hello Camille,
 
 Your appointment with Dr Sophie Martin is confirmed.
 
-When: Thursday 12 November 2026 at 10:30 am
+When: Thursday 12 November 2026 at 10:30 (CET)
 With: Dr Sophie Martin, general practice
 Where: Linden Tree Practice, 12 Linden Lane, Namur
-Duration: 30 minutes
 Manage my appointment
 https://example.org/appointments/EXAMPLE?view=details&lang=en
 

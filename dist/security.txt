@@ -1,9 +1,11 @@
 Hello Camille,
 
-Your verification code: 384916
+Your sign-in code: 384916
+Valid for 10 minutes.
 
-It expires in 10 minutes. Never share it, not even with our team.
-Requested on Monday 9 November 2026 at 09:12, from Firefox on Windows.
+Never share this code, not even with our team. We will never ask for it by phone or email.
+
+Requested on Monday 9 November 2026 at 09:12 (CET), from Firefox on Windows.
 
 Didn’t try to sign in? Someone may know your password.
 

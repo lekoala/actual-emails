@@ -1,10 +1,12 @@
 {% extends 'layout.txt.twig' %}
 {% block content %}Hello {{ recipient.first_name }},
 
-Your verification code: {{ security.code }}
+Your sign-in code: {{ security.code }}
+Valid for {{ security.minutes }} minutes.
 
-It expires in {{ security.minutes }} minutes. Never share it, not even with our team.
-Requested on {{ security.requested }}.
+Never share this code, not even with our team. We will never ask for it by phone or email.
+
+Requested on {{ security.requested }}, from {{ security.device }}.
 
 Didn’t try to sign in? Someone may know your password.
 

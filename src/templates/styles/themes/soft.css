@@ -1,24 +1,24 @@
-/* Soft: generous radii and an indigo palette. Only token overrides. */
+/* Soft: generous radii and a warm clay palette. Only token overrides. */
 :root {
-  --accent: #4b3fb5;
-  --accent-ink: #3a3092;
-  --ink: #221f3a;
-  --text: #4d4a63;
-  --muted: #5e5b74;
-  --page: #f2f1f8;
-  --surface-tint: #f4f3fb;
-  --border: #e4e2ef;
-  --border-strong: #cfcbe2;
+  --accent: #9c4126;
+  --accent-ink: #7a3220;
+  --ink: #2b1d17;
+  --text: #574842;
+  --muted: #6a574e;
+  --page: #f5efe9;
+  --surface-tint: #f8f2ec;
+  --border: #ece2d9;
+  --border-strong: #dccbbd;
   --radius-card: 26px;
   --radius-box: 16px;
   --radius-control: 22px;
   --radius-mark: 18px;
-  --dark-page: #15131f;
-  --dark-surface: #1d1a2a;
-  --dark-tint: #27233a;
-  --dark-ink: #eceaf6;
-  --dark-muted: #aaa6c0;
-  --dark-border: #34304a;
-  --dark-accent: #b8b0ff;
-  --dark-button: #5a4ed0;
+  --dark-page: #1a1411;
+  --dark-surface: #231b17;
+  --dark-tint: #2e241f;
+  --dark-ink: #f3ebe5;
+  --dark-muted: #bba99e;
+  --dark-border: #3e322b;
+  --dark-accent: #f2a98a;
+  --dark-button: #b0502f;
 }

@@ -3,7 +3,7 @@
 <p class="email-lead">Hello {{ recipient.first_name }}, <strong class="email-strong">{{ invitation.sender }}</strong> invited you to join the team workspace.</p>
 {{ include('components/details.html.twig', {'items': invitation.details}, with_context = false) }}
 {{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
-{{ include('components/actions.html.twig', {'primary': {'label': 'Accept invitation', 'url': invitation.url}, 'secondary': {'label': 'How invitations work', 'url': brand.help_url}}, with_context = false) }}
+{{ include('components/actions.html.twig', {'primary': {'label': 'Accept invitation', 'url': invitation.url}, 'secondary': {'label': 'Decline', 'url': invitation.decline_url}}, with_context = false) }}
 {{ include('components/subcopy.html.twig', {'url': invitation.url, 'label': brand.fallback_link_label}, with_context = false) }}
-<div class="email-action-help">Not expecting this invitation? You can ignore this email; no account will be created.</div>
+<div class="email-action-help">Not expecting this invitation? You can also ignore this email; no account is created.</div>
 {% endblock %}

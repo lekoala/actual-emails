@@ -1,91 +1,152 @@
 {
-  "brand": {
-    "name": "Actual Care",
-    "mark": "a",
-    "website": "https://example.org/",
-    "website_label": "example.org",
-    "help_url": "https://example.org/help",
-    "help_label": "Need help?",
-    "fallback_link_label": "If the button does not work, copy this link into your browser:"
-  },
-  "year": 2026,
-  "lang": "en",
-  "messages": {
-    "appointment": {
-      "subject": "Your appointment on 12 November is confirmed",
-      "preheader": "Thursday 12 November at 10:30 am with Dr Sophie Martin",
-      "title": "Thursday 12 November at 10:30 am",
-      "footer_reason": "You are receiving this message because you booked an appointment.",
-      "recipient": {"first_name": "Camille"},
-      "appointment": {
-        "practitioner": "Dr Sophie Martin",
-        "when": "Thursday 12 November 2026 at 10:30 am",
-        "details": [
-          {"label": "With", "value": "Dr Sophie Martin, general practice"},
-          {"label": "Where", "value": "Linden Tree Practice, 12 Linden Lane, Namur"},
-          {"label": "Duration", "value": "30 minutes"}
-        ],
-        "url": "https://example.org/appointments/EXAMPLE?view=details&lang=en",
-        "cancel_notice": "24 hours"
-      }
+    "brand": {
+        "name": "Actual Care",
+        "mark": "a",
+        "website": "https://example.org/",
+        "website_label": "example.org",
+        "help_url": "https://example.org/help",
+        "help_label": "Need help?",
+        "fallback_link_label": "If the button does not work, copy this link into your browser:"
     },
-    "invitation": {
-      "subject": "You’re invited to join Linden Tree Practice",
-      "preheader": "Sophie Martin invited you to the team workspace",
-      "title": "Join Linden Tree Practice",
-      "footer_reason": "You are receiving this message because your address was invited to join a workspace.",
-      "brand": {"logo": {"url": "assets/logo.png", "width": 35, "height": 35}},
-      "recipient": {"first_name": "Alex"},
-      "invitation": {
-        "sender": "Sophie Martin",
-        "details": [
-          {"label": "Workspace", "value": "Linden Tree Practice"},
-          {"label": "Your role", "value": "Collaborator"},
-          {"label": "Valid until", "value": "19 November 2026"}
-        ],
-        "url": "https://example.org/invitations/EXAMPLE"
-      }
+    "year": 2026,
+    "lang": "en",
+    "themes": {
+        "sharp": {
+            "brand": {
+                "logo": false
+            }
+        },
+        "soft": {
+            "brand": {
+                "logo": false
+            }
+        }
     },
-    "digest": {
-      "subject": "Your day on Thursday 12 November",
-      "preheader": "3 appointments in your calendar today",
-      "title": "Thursday 12 November",
-      "footer_reason": "You are receiving this summary based on your notification preferences.",
-      "recipient": {"first_name": "Sophie"},
-      "digest": {
-        "count": 3,
-        "url": "https://example.org/calendar",
-        "items": [
-          {"time": "09:00", "title": "Scheduled consultation", "subtitle": "Linden Tree Practice · 30 minutes"},
-          {"time": "10:30", "title": "Follow-up appointment", "subtitle": "Linden Tree Practice · 45 minutes"},
-          {"time": "14:00", "title": "Video consultation", "subtitle": "Online · 30 minutes"}
-        ]
-      }
-    },
-    "security": {
-      "subject": "Your Actual Care verification code",
-      "preheader": "Your sign-in code expires in 10 minutes",
-      "title": "Your sign-in code",
-      "footer_reason": "This code was sent to you following a sign-in request.",
-      "recipient": {"first_name": "Camille"},
-      "security": {
-        "code": "384916",
-        "minutes": 10,
-        "requested": "Monday 9 November 2026 at 09:12, from Firefox on Windows",
-        "password_url": "https://example.org/account/password"
-      }
-    },
-    "reset": {
-      "subject": "Reset your Actual Care password",
-      "preheader": "Choose a new password within 30 minutes",
-      "title": "Reset your password",
-      "footer_reason": "You are receiving this message because a password reset was requested for your account.",
-      "recipient": {"first_name": "Camille"},
-      "reset": {
-        "url": "https://example.org/reset/EXAMPLE",
-        "minutes": 30,
-        "requested": "Monday 9 November 2026 at 09:12"
-      }
+    "messages": {
+        "appointment": {
+            "subject": "Your appointment on 12 November is confirmed",
+            "preheader": "Thursday 12 November at 10:30 (CET) with Dr Sophie Martin",
+            "title": "Thursday 12 November at 10:30",
+            "footer_reason": "You are receiving this message because you booked an appointment.",
+            "recipient": {
+                "first_name": "Camille"
+            },
+            "appointment": {
+                "practitioner": "Dr Sophie Martin",
+                "details": [
+                    {
+                        "label": "When",
+                        "value": "Thursday 12 November 2026 at 10:30 (CET)"
+                    },
+                    {
+                        "label": "With",
+                        "value": "Dr Sophie Martin, general practice"
+                    },
+                    {
+                        "label": "Where",
+                        "value": "Linden Tree Practice, 12 Linden Lane, Namur"
+                    }
+                ],
+                "url": "https://example.org/appointments/EXAMPLE?view=details&lang=en",
+                "cancel_notice": "24 hours"
+            }
+        },
+        "invitation": {
+            "subject": "You’re invited to join Linden Tree Practice",
+            "preheader": "Sophie Martin invited you to the team workspace",
+            "title": "Join Linden Tree Practice",
+            "footer_reason": "You are receiving this message because your address was invited to join a workspace.",
+            "brand": {
+                "logo": {
+                    "url": "assets/logo.png",
+                    "width": 35,
+                    "height": 35
+                }
+            },
+            "recipient": {
+                "first_name": "Alex"
+            },
+            "invitation": {
+                "sender": "Sophie Martin",
+                "details": [
+                    {
+                        "label": "Workspace",
+                        "value": "Linden Tree Practice"
+                    },
+                    {
+                        "label": "Your role",
+                        "value": "Collaborator"
+                    },
+                    {
+                        "label": "Valid until",
+                        "value": "19 November 2026"
+                    }
+                ],
+                "url": "https://example.org/invitations/EXAMPLE",
+                "decline_url": "https://example.org/invitations/EXAMPLE/decline"
+            }
+        },
+        "digest": {
+            "subject": "Your day on Thursday 12 November",
+            "preheader": "3 appointments in your calendar today",
+            "title": "Thursday 12 November",
+            "footer_reason": "You are receiving this summary based on your notification preferences.",
+            "recipient": {
+                "first_name": "Sophie"
+            },
+            "digest": {
+                "count": 3,
+                "url": "https://example.org/calendar",
+                "items": [
+                    {
+                        "time": "09:00",
+                        "title": "Scheduled consultation",
+                        "subtitle": "Linden Tree Practice · 30 minutes"
+                    },
+                    {
+                        "time": "10:30",
+                        "title": "Follow-up appointment",
+                        "subtitle": "Linden Tree Practice · 45 minutes"
+                    },
+                    {
+                        "time": "14:00",
+                        "title": "Video consultation",
+                        "subtitle": "Online · 30 minutes"
+                    }
+                ],
+                "timezone": "CET"
+            }
+        },
+        "security": {
+            "subject": "Your Actual Care sign-in code",
+            "preheader": "Your sign-in code expires in 10 minutes",
+            "title": "Your sign-in code",
+            "footer_reason": "This code was sent to you following a sign-in request.",
+            "recipient": {
+                "first_name": "Camille"
+            },
+            "security": {
+                "code": "384916",
+                "minutes": 10,
+                "requested": "Monday 9 November 2026 at 09:12 (CET)",
+                "password_url": "https://example.org/account/password",
+                "device": "Firefox on Windows"
+            }
+        },
+        "reset": {
+            "subject": "Reset your Actual Care password",
+            "preheader": "Choose a new password within 30 minutes",
+            "title": "Reset your password",
+            "footer_reason": "You are receiving this message because a password reset was requested for your account.",
+            "recipient": {
+                "first_name": "Camille"
+            },
+            "reset": {
+                "url": "https://example.org/reset/EXAMPLE",
+                "minutes": 30,
+                "requested": "Monday 9 November 2026 at 09:12 (CET)",
+                "device": "Firefox on Windows"
+            }
+        }
     }
-  }
 }

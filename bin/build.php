@@ -51,8 +51,9 @@ foreach ($themes as $themeName => $overrides) {
             throw new RuntimeException('Unsafe fixture name: ' . $name);
         }
         // Recursive so a message can add one brand option (e.g. `brand.logo`) without repeating the brand.
-        $data = array_replace_recursive($fixture, $message);
-        unset($data['messages']);
+        // Demo data per theme (`themes.<name>`) comes last, e.g. no teal logo in the other themes.
+        $data = array_replace_recursive($fixture, $message, $fixture['themes'][$themeName] ?? []);
+        unset($data['messages'], $data['themes']);
 
         // Applying inline_css to the entire document preserves the layout's table structure.
         $html = $twig->render('export.html.twig', $data + ['template' => 'messages/' . $name . '.html.twig']);

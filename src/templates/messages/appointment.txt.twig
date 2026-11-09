@@ -3,7 +3,6 @@
 
 Your appointment with {{ appointment.practitioner }} is confirmed.
 
-When: {{ appointment.when }}
 {% for item in appointment.details %}{{ item.label }}: {{ item.value }}
 {% endfor %}
 Manage my appointment

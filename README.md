@@ -33,7 +33,7 @@ No Symfony app, Node process or `package.json` is needed. `dist/` is generated a
 | `src/templates/messages/` | One `.html.twig` + `.txt.twig` pair per example message; text versions extend the shared shell |
 | `src/templates/export.html.twig` | Applies `inline_css` to the **whole document** |
 | `src/theme.php` | Resolves theme tokens (`var(--…)`) before inlining |
-| `src/fixtures/demo.json` | Fictitious data for the examples, including brand strings; a message may override part of `brand` |
+| `src/fixtures/demo.json` | Fictitious data for the examples, including brand strings; a message may override part of `brand`, and `themes.<name>` overrides demo data per theme |
 | `src/assets/` | Fictitious demo images, copied to `dist/assets/` by the build |
 | `bin/build.php` | Renders `dist/`; `--check` compares without writing |
 | `tests/smoke.php` | Structural checks on the rendered output |
@@ -73,7 +73,7 @@ The build fails on an unknown token, or on a literal hex colour outside `:root`.
 
 ### Themes
 
-A theme is a file in `src/templates/styles/themes/` holding only a `:root` block that redefines some existing tokens: `sharp.css` squares every corner with a monochrome palette, `soft.css` uses large radii and an indigo palette. The build renders every message in every theme; adding a theme needs no template change. `actual_emails_theme($css, $themeCss)` rejects unknown tokens and any rule other than `:root`, so a typo fails instead of silently keeping the default. A host usually copies one theme's values into its own `:root` rather than shipping several. The demo logo is the same PNG in every theme; a real brand ships a symbol that matches its palette.
+A theme is a file in `src/templates/styles/themes/` holding only a `:root` block that redefines some existing tokens: `sharp.css` squares every corner with a monochrome palette, `soft.css` uses large radii and a warm clay palette. The build renders every message in every theme; adding a theme needs no template change. `actual_emails_theme($css, $themeCss)` rejects unknown tokens and any rule other than `:root`, so a typo fails instead of silently keeping the default. A host usually copies one theme's values into its own `:root` rather than shipping several. Demo data can differ per theme through `themes.<name>` in the fixture, merged last: the teal demo logo belongs to the default theme, so `sharp` and `soft` fall back to the text mark. A real brand ships a symbol that matches its palette.
 
 Word-based Outlook squares every corner whatever the radius, so the rounded themes degrade to the sharp shape there.
 
@@ -94,6 +94,7 @@ The `--dark-*` tokens feed the `prefers-color-scheme: dark` block in the layout.
 - `actions` places one or two buttons side by side and stacks them full-width below 620px; keep labels short and check translated lengths at 320px anyway.
 - `digest_list` requires a `title` per row; `time` and `subtitle` are optional. Lists without times omit the time column; mixed lists keep that column aligned. The text version also accepts untimed rows.
 - Plain-text bodies omit the subject and put each URL on its own line below its label.
+- Demo copy conventions worth keeping when adapting: one name per concept ("sign-in code" in subject, title and text), 24-hour times with their time zone, and the same request context (time and device) in the same place for every security message, just before the "not you?" notice.
 
 ## Integration direction
 

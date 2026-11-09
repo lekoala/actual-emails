@@ -1,10 +1,11 @@
 Hello Camille,
 
-We received a request to reset your password on Monday 9 November 2026 at 09:12.
-The link works once and expires in 30 minutes.
+Use this link to choose a new password. It works once and expires in 30 minutes.
 
 Choose a new password
 https://example.org/reset/EXAMPLE
+
+Requested on Monday 9 November 2026 at 09:12 (CET), from Firefox on Windows.
 
 Didn’t ask for this? You can ignore this email; your password stays the same.
 

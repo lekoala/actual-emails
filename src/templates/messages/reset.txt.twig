@@ -1,10 +1,11 @@
 {% extends 'layout.txt.twig' %}
 {% block content %}Hello {{ recipient.first_name }},
 
-We received a request to reset your password on {{ reset.requested }}.
-The link works once and expires in {{ reset.minutes }} minutes.
+Use this link to choose a new password. It works once and expires in {{ reset.minutes }} minutes.
 
 Choose a new password
 {{ reset.url }}
+
+Requested on {{ reset.requested }}, from {{ reset.device }}.
 
 Didn’t ask for this? You can ignore this email; your password stays the same.{% endblock %}

@@ -4,5 +4,5 @@
 {{ include('components/digest_list.html.twig', {'items': digest['items']}, with_context = false) }}
 {{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
 {{ include('components/button.html.twig', {'label': 'Open my calendar', 'url': digest.url}, with_context = false) }}
-<div class="email-action-help">To protect personal data, this message contains no clinical information.</div>
+<div class="email-action-help">Times are in {{ digest.timezone }}. To protect personal data, this message contains no clinical information.</div>
 {% endblock %}

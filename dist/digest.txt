@@ -8,7 +8,7 @@ You have 3 appointments today.
 Open my calendar
 https://example.org/calendar
 
-To protect personal data, this message contains no clinical information.
+Times are in CET. To protect personal data, this message contains no clinical information.
 
 You are receiving this summary based on your notification preferences.
 Need help?
