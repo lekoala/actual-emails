@@ -1,21 +1,24 @@
-# Toward 0.2
+# After 0.2
 
-0.1.0 is tagged. 0.2 stabilises what exists: validation in real clients, not new components, options or lint rules. The kit provides compositions and conventions; the host keeps business content, date and time formatting, and state-changing endpoints.
+0.2.0 is tagged. Like 0.2, the next step stabilises what exists: validation in real clients, not new components, options or lint rules. The kit provides compositions and conventions; the host keeps business content, date and time formatting, and state-changing endpoints.
 
-## Done for 0.2
+## What 0.2 contains
 
 - Contrast guard: `tests/contrast.php` checks WCAG AA (4.5:1) for every text/background token pair the layout uses, light and dark, in all three palettes.
 - Neutral security wording: "Didn’t request this code? Review your account security." no longer assumes a password was checked (passwordless sign-in).
 - Documented contract: email links never change state on a GET; "Decline" leads to a confirmation page (README, architecture).
+- Outlook 2019 thin lines fixed. An A/B test showed that `bgcolor` on the card cells changes nothing, so it was dropped. The seam came from line heights: Outlook did not apply the unitless values (16px text set 21px apart instead of 26.4px) and left a 1px gap showing the page colour. Every line height is now whole pixels with `mso-line-height-rule: exactly`, and the lint rejects unitless line heights. The `&nbsp;` gap cell between two actions, which showed the page colour too, is now padding on the second cell. Checked in Outlook 2019 at 100%: security, appointment, invitation; Outlook now also gets the intended spacing.
+- Detail labels no longer break mid-word on phones ("Workspac-e"): they use `word-break: normal`, values keep `break-word` for long URLs. Checked at 320px and in Gmail Android (dark).
+- Stricter radius test: every value of a `border-radius` shorthand must come from a token.
 
-## Blocking 0.2 (validation pass)
+## Still to validate
 
-1. **Outlook 2019 thin lines (fixed at 100%, scaling to check)**: first seen on 7 November in the former appointment (under the button and under the notice); the digest did not show it. A/B test on 9 November, security message, Outlook 2019 at 100% scaling: the version with `bgcolor` on the header, body and foot cells is pixel-identical to the version without it, so that workaround was reverted. Both show one 1px full-width line in the page colour (`--page`) inside the card foot, at the bottom of the footer text's line box and above the cell's bottom padding: the body background shows through a seam that cell shading does not cover. Same render: Outlook does not apply the unitless line heights (16px body text is set 21px apart instead of 26.4px; the 13px foot text gets a 17px line box instead of 21.45px). Applied: every line height in whole pixels (e.g. 16px → 26px, 14px → 22px, 13px → 21px) with `mso-line-height-rule: exactly`; the stylesheet lint now rejects unitless line heights. Checked 9 November in Outlook 2019 at 100%: security, appointment and invitation have no seam and the intended spacing (26px between body lines). The invitation showed the page colour in the `&nbsp;` gap cell between its two buttons; the gap is now padding on the second action cell (to recheck). Still to check: 125% and 150% scaling, digest and reset.
-2. **Real-client pass on the riskiest compositions**: already checked in Gmail web/Android, Outlook web/new, Outlook 2019 (appointment, digest), iPhone 12 mini, Roundcube and AOL. Still to capture, in Outlook 2019/365, Gmail apps and Apple Mail desktop:
+1. **Outlook 2019 at 125% and 150% display scaling**, and digest and reset after the line-height change. If a seam returns, look at cell padding next, not line heights.
+2. **Real-client pass on the riskiest compositions**: already checked in Gmail web/Android, Outlook web/new, Outlook 2019 (appointment, digest, security, invitation), iPhone 12 mini, Roundcube and AOL. Still to capture, in Outlook 2019/365, Gmail apps and Apple Mail desktop:
    - the invitation with two actions, at 320px and with the longest supported translation of both labels;
    - a long organisation name in the header, with and without the optional `brand.logo`;
    - the logo with images blocked and in forced dark mode (Gmail apps, Outlook); Outlook 2019 sizing;
-   - reset and security in Outlook 2019/365;
+   - reset in Outlook 2019, and all messages in Outlook 365;
    - the secondary button and notices in dark mode;
    - iOS date/address auto-detection.
 3. **Dark mode**: the `prefers-color-scheme` block is a best effort. Record what each client above actually does with it; do not promise a theme beyond what is measured. Forced dark mode is not consistently controllable.

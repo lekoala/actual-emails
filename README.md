@@ -1,4 +1,4 @@
-# Actual Emails · 0.1
+# Actual Emails · 0.2
 
 A small transactional email design kit, inspired by the philosophy of Actual CSS: content-first, clean defaults, just enough components and no frontend build chain. The output HTML is **standalone**; the included Twig renderer is only the authoring workflow.
 

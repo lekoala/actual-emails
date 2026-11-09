@@ -6,7 +6,7 @@
 - **Demo adapter**: minimal Twig templates and fixtures in this repository. Twig is not a requirement for consuming final HTML/CSS patterns.
 - **Application**: owns translations, mail subjects, recipient preference, per-tenant identity, links, scheduling, delivery and message content.
 
-## Component catalog (v0.1)
+## Component catalog (v0.2)
 
 - `button` — principal / secondary; HTML table shape intended to survive Outlook.
 - `actions` — optional second, short CTA; full-width and stacked below 620px.
