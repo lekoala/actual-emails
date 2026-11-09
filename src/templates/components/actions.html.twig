@@ -6,7 +6,6 @@
   <td class="email-action-cell">{{ include('components/button.html.twig', {'label': primary.label, 'url': primary.url, 'variant': 'primary'}, with_context = false) }}</td>
   {% endif %}
   {% if secondary is defined and secondary %}
-  <td class="email-action-gap" width="10" aria-hidden="true">&nbsp;</td>
-  <td class="email-action-cell">{{ include('components/button.html.twig', {'label': secondary.label, 'url': secondary.url, 'variant': 'secondary'}, with_context = false) }}</td>
+  <td class="email-action-cell email-action-next">{{ include('components/button.html.twig', {'label': secondary.label, 'url': secondary.url, 'variant': 'secondary'}, with_context = false) }}</td>
   {% endif %}
 </tr></table>

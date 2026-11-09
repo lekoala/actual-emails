@@ -87,6 +87,11 @@ foreach ($matches as $match) {
             $errors[] = "duplicate property '$property' in $selector";
         }
         $seen[$property] = true;
+        // Outlook Word rounds unitless line heights and leaves 1px seams
+        // (Outlook 2019, November 2026): whole pixels only.
+        if ($property === 'line-height' && !preg_match('/^(0|\d+px)$/', trim($parsed[2]))) {
+            $errors[] = "line-height '" . trim($parsed[2]) . "' in $selector; use whole pixels";
+        }
         if (preg_match('/\b(' . $keywords . ')\b/i', $parsed[2], $keyword)) {
             $errors[] = "colour keyword '$keyword[1]' in $selector; use a theme token";
         }

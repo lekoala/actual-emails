@@ -51,8 +51,13 @@ foreach ($themeRejects as $case => $overrides) {
 }
 // Shapes are tokens: a theme must be able to square every corner.
 $square = actual_emails_theme($css, ':root { --radius-card: 0px; --radius-box: 0px; --radius-control: 0px; --radius-mark: 0px; }');
-if (preg_match('/border-radius:\s*(?!0px)[0-9]/', $square['css'])) {
-    $errors[] = 'a border-radius in email.css does not come from a radius token';
+// Every length in every radius declaration (shorthand with up to four values
+// included) must collapse to zero once the radius tokens are zero.
+preg_match_all('/radius\s*:\s*([^;}]+)/', $square['css'], $radii);
+foreach ($radii[1] as $radius) {
+    if (preg_match('/(?<![\w.-])(?!0px\b|0\b)[0-9.]+/', $radius)) {
+        $errors[] = "border-radius '$radius' in email.css does not come from a radius token";
+    }
 }
 
 /**
