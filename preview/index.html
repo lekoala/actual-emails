@@ -45,10 +45,10 @@ iframe{display:block;width:100%;height:820px;border:0;background:#eef2f2}.phone 
 <aside class="sidebar">
   <div class="sidebar-label">Reference messages</div>
   <nav class="messages" aria-label="Choose a template">
-    <button class="message" data-id="appointment" aria-current="true"><span class="message-icon" aria-hidden="true">✓</span><span><span class="message-name">Appointment</span><span class="message-sub">Details + action + notice</span></span></button>
+    <button class="message" data-id="appointment" aria-current="true"><span class="message-icon" aria-hidden="true">✓</span><span><span class="message-name">Appointment</span><span class="message-sub">Details + action</span></span></button>
     <button class="message" data-id="invitation" aria-current="false"><span class="message-icon" aria-hidden="true">↗</span><span><span class="message-name">Invitation</span><span class="message-sub">Two actions + expiry</span></span></button>
-    <button class="message" data-id="digest" aria-current="false"><span class="message-icon" aria-hidden="true">≡</span><span><span class="message-name">Daily summary</span><span class="message-sub">KPI + list</span></span></button>
-    <button class="message" data-id="security" aria-current="false"><span class="message-icon" aria-hidden="true">#</span><span><span class="message-name">Security code</span><span class="message-sub">OTP code + warning</span></span></button>
+    <button class="message" data-id="digest" aria-current="false"><span class="message-icon" aria-hidden="true">≡</span><span><span class="message-name">Daily summary</span><span class="message-sub">Count + list</span></span></button>
+    <button class="message" data-id="security" aria-current="false"><span class="message-icon" aria-hidden="true">#</span><span><span class="message-name">Security code</span><span class="message-sub">Code + recovery warning</span></span></button>
     <button class="message" data-id="reset" aria-current="false"><span class="message-icon" aria-hidden="true">↺</span><span><span class="message-name">Password reset</span><span class="message-sub">One action + fallback URL</span></span></button>
   </nav>
   <div class="sidebar-footer"><strong>One base, five situations.</strong>All examples are fictitious. Design, components and plain-text versions live in this repository.</div>
@@ -56,7 +56,7 @@ iframe{display:block;width:100%;height:820px;border:0;background:#eef2f2}.phone 
 <main class="workspace">
   <div class="toolbar">
     <div><h2 class="work-title" id="work-title">Appointment confirmation</h2><div class="work-desc" id="work-desc">A short, reassuring message with the essential details.</div></div>
-    <div class="tools"><div class="toggle" role="group" aria-label="Preview size"><button id="desktop" aria-pressed="true" type="button">Desktop</button><button id="mobile" aria-pressed="false" type="button">Mobile</button></div><a class="open-link" href="../dist/appointment.html" id="open-email" target="_blank" rel="noopener">Open HTML ↗</a></div>
+    <div class="tools"><div class="toggle" id="theme" role="group" aria-label="Theme"><button data-theme="" aria-pressed="true" type="button">Rounded</button><button data-theme="sharp" aria-pressed="false" type="button">Sharp</button><button data-theme="soft" aria-pressed="false" type="button">Soft</button></div><div class="toggle" id="size" role="group" aria-label="Preview size"><button id="desktop" aria-pressed="true" type="button">Desktop</button><button id="mobile" aria-pressed="false" type="button">Mobile</button></div><a class="open-link" href="../dist/appointment.html" id="open-email" target="_blank" rel="noopener">Open HTML ↗</a></div>
   </div>
   <div class="preview-area"><div class="preview-stage" id="stage"><div class="iframe-wrap"><iframe id="email" src="../dist/appointment.html" title="Preview: Appointment confirmation" loading="eager"></iframe></div></div>
     <div class="description"><div><span class="smallcaps">Preview only</span> · Browser rendering does not replace Outlook/Gmail/Apple Mail testing.</div><div><a id="plain" href="../dist/appointment.txt" target="_blank" rel="noopener">Show plain-text version ↗</a></div></div>
@@ -66,23 +66,31 @@ iframe{display:block;width:100%;height:820px;border:0;background:#eef2f2}.phone 
 <script>
 (function(){
   const choices = {
-    appointment: ['Appointment confirmation', 'A short, reassuring message with the essential details.'],
+    appointment: ['Appointment confirmation', 'The date as the title, the details and how to reschedule.'],
     invitation: ['Invitation to collaborate', 'A clear proposal, two actions and an expiry date.'],
-    digest: ['Daily summary', 'A KPI, a list and a link back to the service.'],
-    security: ['Sign-in code', 'Focus on the code, its expiry and security guidance.'],
-    reset: ['Password reset', 'One action, a visible fallback URL and an expiry warning.']
+    digest: ['Daily summary', 'The date, a count in the lead, a list and a link back to the service.'],
+    security: ['Sign-in code', 'The code, its expiry, when it was requested and a recovery link.'],
+    reset: ['Password reset', 'One action, a visible fallback URL and its validity.']
   };
   const frame=document.getElementById('email'), open=document.getElementById('open-email'), plain=document.getElementById('plain');
-  document.querySelectorAll('.message').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.id;
-    document.querySelectorAll('.message').forEach(x=>x.setAttribute('aria-current',String(x===b)));
+  let id='appointment', theme='';
+  const show=()=>{
+    const file='../dist/'+id+(theme?'--'+theme:'')+'.html';
     document.getElementById('work-title').textContent=choices[id][0];
     document.getElementById('work-desc').textContent=choices[id][1];
-    frame.src='../dist/'+id+'.html';frame.title='Preview: '+choices[id][0];
-    open.href='../dist/'+id+'.html';plain.href='../dist/'+id+'.txt';
+    frame.src=file;frame.title='Preview: '+choices[id][0];
+    open.href=file;plain.href='../dist/'+id+'.txt';
+  };
+  const press=(group,active)=>group.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===active)));
+  document.querySelectorAll('.message').forEach(b=>b.addEventListener('click',()=>{
+    id=b.dataset.id;
+    document.querySelectorAll('.message').forEach(x=>x.setAttribute('aria-current',String(x===b)));
+    show();
   }));
-  document.querySelectorAll('.toggle button').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('.toggle button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  const themes=document.getElementById('theme'), sizes=document.getElementById('size');
+  themes.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{theme=b.dataset.theme;press(themes,b);show();}));
+  sizes.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    press(sizes,b);
     document.getElementById('stage').classList.toggle('phone',b.id==='mobile');
   }));
 })();

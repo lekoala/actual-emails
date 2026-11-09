@@ -1,9 +1,10 @@
-{# items: [{label: string, value: string}] - values are escaped by Twig #}
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-details"><tr><td class="email-details-inner">
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-    {% for item in items %}
-    <tr><td class="email-detail-label">{{ item.label }}</td></tr>
-    <tr><td class="email-detail-value">{{ item.value }}</td></tr>
-    {% endfor %}
-  </table>
-</td></tr></table>
+{# items: [{label: string, value: string}] - values are escaped by Twig.
+   Ruled label/value rows; the label column narrows with the card on mobile. #}
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-details">
+  {% for item in items %}
+  <tr>
+    <td class="email-detail-label{{ loop.last ? ' email-row-last' : '' }}" width="28%" valign="top">{{ item.label }}</td>
+    <td class="email-detail-value{{ loop.last ? ' email-row-last' : '' }}" valign="top">{{ item.value }}</td>
+  </tr>
+  {% endfor %}
+</table>

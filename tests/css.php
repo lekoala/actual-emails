@@ -5,7 +5,16 @@ declare(strict_types=1);
 // Static rules for the single source stylesheet. An optional path lets the
 // rules be exercised against a failing fixture; it defaults to email.css.
 $root = dirname(__DIR__);
-$path = $argv[1] ?? $root . '/src/templates/styles/email.css';
+// Without an argument, lint email.css and every theme, one process per file.
+if (!isset($argv[1])) {
+    $status = 0;
+    foreach (array_merge([$root . '/src/templates/styles/email.css'], glob($root . '/src/templates/styles/themes/*.css') ?: []) as $file) {
+        passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' ' . escapeshellarg($file), $code);
+        $status = max($status, $code);
+    }
+    exit($status);
+}
+$path = $argv[1];
 $errors = [];
 
 if (!is_file($path)) {

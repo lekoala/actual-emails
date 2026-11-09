@@ -1,6 +1,6 @@
 Hello Sophie,
 
-You have 3 appointments scheduled today.
+You have 3 appointments today.
 
 - 09:00 — Scheduled consultation (Linden Tree Practice · 30 minutes)
 - 10:30 — Follow-up appointment (Linden Tree Practice · 45 minutes)

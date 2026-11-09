@@ -3,8 +3,6 @@
 <p class="email-lead">Hello {{ recipient.first_name }}, your appointment with <strong class="email-strong">{{ appointment.practitioner }}</strong> is confirmed.</p>
 {{ include('components/details.html.twig', {'items': appointment.details}, with_context = false) }}
 {{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
-{{ include('components/button.html.twig', {'label': 'View my appointment', 'url': appointment.url}, with_context = false) }}
-<div class="email-action-help">You can view or change your appointment from this link.</div>
-{{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
-{{ include('components/notice.html.twig', {'message': 'Something came up? Please let the practice know early enough so the slot can be freed.'}, with_context = false) }}
+{{ include('components/button.html.twig', {'label': 'Manage my appointment', 'url': appointment.url}, with_context = false) }}
+<div class="email-action-help">Can’t make it? Reschedule or cancel from the same page, up to {{ appointment.cancel_notice }} before, so the slot can go to someone else.</div>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'layout.txt.twig' %}
 {% block content %}Hello {{ recipient.first_name }},
 
-You have {{ digest.count }} appointments scheduled today.
+You have {{ digest.count }} appointments today.
 
 {% for item in digest['items'] %}- {% if item.time is defined and item.time %}{{ item.time }} — {% endif %}{{ item.title }}{% if item.subtitle is defined and item.subtitle %} ({{ item.subtitle }}){% endif %}{{ '\n' -}}
 {% endfor %}Open my calendar

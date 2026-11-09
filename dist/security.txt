@@ -2,9 +2,13 @@ Hello Camille,
 
 Your verification code: 384916
 
-It expires in 10 minutes. Never share it with anyone.
+It expires in 10 minutes. Never share it, not even with our team.
+Requested on Monday 9 November 2026 at 09:12, from Firefox on Windows.
 
-Didn’t request this? You can ignore this message.
+Didn’t try to sign in? Someone may know your password.
+
+Change your password
+https://example.org/account/password
 
 This code was sent to you following a sign-in request.
 Need help?

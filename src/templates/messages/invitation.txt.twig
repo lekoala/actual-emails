@@ -1,13 +1,14 @@
 {% extends 'layout.txt.twig' %}
 {% block content %}Hello {{ recipient.first_name }},
 
-{{ invitation.sender }} has invited you to join their workspace.
+{{ invitation.sender }} invited you to join the team workspace.
 
 {% for item in invitation.details %}{{ item.label }}: {{ item.value }}
-{% endfor %}Accept invitation
+{% endfor %}
+Accept invitation
 {{ invitation.url }}
-Learn more
+
+How invitations work
 {{ brand.help_url }}
 
-This invitation is valid until {{ invitation.expires }}.
-If you weren’t expecting it, you can ignore this email.{% endblock %}
+Not expecting this invitation? You can ignore this email; no account will be created.{% endblock %}

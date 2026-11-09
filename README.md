@@ -4,8 +4,8 @@ A small transactional email design kit, inspired by the philosophy of Actual CSS
 
 ## Open the preview
 
-1. Open **`preview/index.html`** in a browser. Select one of the five example messages and switch between the desktop and mobile viewports.
-2. Open **`dist/*.html`** to see finished emails, or **`dist/*.txt`** for their plain-text counterparts.
+1. Open **`preview/index.html`** in a browser. Select one of the five example messages, switch between the three themes (rounded, sharp, soft) and between the desktop and mobile viewports.
+2. Open **`dist/*.html`** to see finished emails (`dist/<message>--<theme>.html` for the other themes), or **`dist/*.txt`** for their plain-text counterparts.
 
 All demonstration data is fictitious and URLs point to `example.org`; they are intentionally non-functional. The preview loads no external assets: the invitation's demo logo is a local file (`src/assets/logo.png`, copied to `dist/assets/` by the build). It is a development tool only: browser rendering is not validation in Gmail, Apple Mail or Outlook.
 
@@ -13,11 +13,11 @@ All demonstration data is fictitious and URLs point to `example.org`; they are i
 
 ```sh
 composer install
-composer build   # render dist/*.html and dist/*.txt
+composer build   # render dist/*.html (every theme) and dist/*.txt
 composer test    # fail if dist/ is stale, then run the output smoke test
 ```
 
-No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then lints the source stylesheet, runs the output smoke test (structure, inlined styles, class/stylesheet drift, HTML/plain-text link parity) and a render test. The render test exercises the inliner itself: character-entity fidelity (the preheader filler depends on it), media-query preservation, the conditional Outlook wrapper width, agreement between Outlook's `bgcolor` attribute and the inlined `background-color`, no `padding` on `div`/`p`, a 20 KB per-message budget, and both header branches (text mark, or logo with HTML dimensions, empty `alt` and the brand name still as text). The smoke test also requires every demo image to be a local file in `dist/` with `width`, `height` and `alt`. The stylesheet lint rejects `!important`, short or uppercase hex, colour keywords, id selectors, duplicate properties and remote assets in `email.css`.
+No Symfony app, Node process or `package.json` is needed. `dist/` is generated and committed only so the gallery works **without installing anything**: never edit it by hand, rebuild it instead. `composer test` (via `php bin/build.php --check`) fails when `dist/` no longer matches the sources, then lints the source stylesheet and every theme, runs the output smoke test (structure, inlined styles, class/stylesheet drift, HTML/plain-text link parity) and a render test. The render test exercises the inliner itself: character-entity fidelity (the preheader filler depends on it), media-query preservation, the conditional Outlook wrapper width, agreement between Outlook's `bgcolor` attribute and the inlined `background-color`, no `padding` on `div`/`p`, a 20 KB per-message budget (all checks run in every theme), themes that only redefine existing tokens, every border radius coming from a token, and both header branches (text mark, or logo with HTML dimensions, empty `alt` and the brand name still as text). The smoke test also requires every demo image to be a local file in `dist/` with `width`, `height` and `alt`. The stylesheet lint rejects `!important`, short or uppercase hex, colour keywords, id selectors, duplicate properties and remote assets in `email.css` and in themes; a theme may contain nothing but its `:root` block.
 
 `composer build` also removes obsolete `.html` and `.txt` exports from `dist/` after a message is removed or renamed. `--check` reports those files without deleting them; other file types are left untouched.
 
@@ -25,7 +25,8 @@ No Symfony app, Node process or `package.json` is needed. `dist/` is generated a
 
 | Path | Role |
 | --- | --- |
-| `src/templates/styles/email.css` | Single source of truth for styles and theme tokens |
+| `src/templates/styles/email.css` | Single source of truth for styles and theme tokens (colours and corner radii) |
+| `src/templates/styles/themes/` | Themes: a `:root` block overriding some tokens, nothing else |
 | `src/templates/layout.html.twig` | Shared shell: preheader, header, body, footer, media queries and dark mode |
 | `src/templates/layout.txt.twig` | Shared plain-text shell: body, footer and help link; the host supplies the subject header |
 | `src/templates/components/` | Presentational partials (button, actions, details, notice, code, digest list, spacer) |
@@ -43,19 +44,19 @@ No Symfony app, Node process or `package.json` is needed. `dist/` is generated a
 
 | Email | Components exercised |
 | --- | --- |
-| Appointment confirmation | Details, action, link, notice |
+| Appointment confirmation | Date as title, details, action, reschedule hint |
 | Invitation | Logo header, details, two actions, expiry |
-| Daily summary | KPI, repeated list, action |
-| Security code | OTP, expiry, warning |
-| Password reset | Single action, fallback URL, warning |
+| Daily summary | Date as title, count in the lead, repeated list, action |
+| Security code | Code, expiry, request context, warning with recovery link |
+| Password reset | Single action, fallback URL, validity, notice |
 
 Each sample has a meaningful plain-text version with the same links as the HTML. `actions` places one or two buttons side by side; below 620px they stack full-width so translated labels don't get cramped. The CSS deliberately keeps to email-friendly structures; emails contain **no JavaScript or external fonts, and never depend on images**: with images blocked, every message stays complete and readable. The preheader is followed by invisible filler characters so inbox previews don't pull in body text.
 
 ## Change the design
 
-### Colours (theme tokens)
+### Colours and shapes (theme tokens)
 
-All colours are defined once, as custom properties in the `:root` block at the top of `src/templates/styles/email.css`:
+All colours and corner radii (`--radius-card`, `--radius-box`, `--radius-control`, `--radius-mark`) are defined once, as custom properties in the `:root` block at the top of `src/templates/styles/email.css`:
 
 ```css
 :root {
@@ -70,6 +71,14 @@ Email clients and the CSS inliner don't support `var()`, so `src/theme.php` reso
 
 The build fails on an unknown token, or on a literal hex colour outside `:root`. Add a token instead of hard-coding a colour. Check text contrast when changing tokens: `--muted` is used for small text on both `--surface` and `--page`.
 
+### Themes
+
+A theme is a file in `src/templates/styles/themes/` holding only a `:root` block that redefines some existing tokens: `sharp.css` squares every corner with a monochrome palette, `soft.css` uses large radii and an indigo palette. The build renders every message in every theme; adding a theme needs no template change. `actual_emails_theme($css, $themeCss)` rejects unknown tokens and any rule other than `:root`, so a typo fails instead of silently keeping the default. A host usually copies one theme's values into its own `:root` rather than shipping several. The demo logo is the same PNG in every theme; a real brand ships a symbol that matches its palette.
+
+Word-based Outlook squares every corner whatever the radius, so the rounded themes degrade to the sharp shape there.
+
+### Dark mode
+
 The `--dark-*` tokens feed the `prefers-color-scheme: dark` block in the layout. Clients can still force their own inversion, so treat this as a best effort, not a guarantee.
 
 ### Everything else
@@ -77,7 +86,9 @@ The `--dark-*` tokens feed the `prefers-color-scheme: dark` block in the layout.
 - Typography and spacing: `src/templates/styles/email.css`.
 - Shared shell: `src/templates/layout.html.twig`; shared text shell: `src/templates/layout.txt.twig`.
 - Brand symbol: by default a letter in a coloured square (`brand.mark`). An optional `brand.logo` (`url`, `width`, `height`) replaces only that square with an image; `brand.name` stays as text beside it, so the image is decorative (`alt=""`). It is designed for a square symbol, not for a logotype that already contains the name. Provide a PNG at twice the displayed size, keep `width`/`height` (rendered as HTML attributes, which Outlook needs), and check that it stays visible on light and dark backgrounds: a transparent PNG is fine if its shape keeps contrast after inversion; otherwise give it its own fill, outline or halo. Never use SVG as the only format. When sending, use an absolute, stable HTTPS URL shared by all recipients (no recipient identifier, which would turn the image into a tracker). The demo's relative `assets/logo.png` exists only to keep the gallery offline.
-- Layout chrome strings (logo mark, help label, fallback-link label, footer note) are brand parameters in `src/fixtures/demo.json`, not markup, so they can be translated. `subcopy` requires an explicit translated `label` and `url`; callers that relied on its former English default must now supply the label.
+- Layout chrome strings (logo mark, help label, fallback-link label, website label, optional `brand.footer_note`) are brand parameters in `src/fixtures/demo.json`, not markup, so they can be translated. The demo omits the footer note.
+- There is no eyebrow label above the title: the title states the fact (a date, a code, an action) and the lead adds who and what, without repeating the title.
+- `details`, `digest_list` and `code` are ruled rows inside the card, not boxes inside a box. `notice` accepts an optional `link` (`{label, url}`) placed after its message, for a recovery action such as changing a password. `subcopy` requires an explicit translated `label` and `url`; callers that relied on its former English default must now supply the label.
 - Example messages: `src/templates/messages/`.
 - Fixture data: `src/fixtures/demo.json`, then `composer build`.
 - `actions` places one or two buttons side by side and stacks them full-width below 620px; keep labels short and check translated lengths at 320px anyway.

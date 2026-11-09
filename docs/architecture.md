@@ -11,9 +11,9 @@
 - `button` — principal / secondary; HTML table shape intended to survive Outlook.
 - `actions` — optional second, short CTA; full-width and stacked below 620px.
 - `subcopy` — visible fallback URL after a primary action, for forwarded or text-only views. Both `url` and translated `label` are required; there is no English default.
-- `details` — labeled key/value rows (appointment, invitation).
-- `notice` — information/warning; meaning always in the text, not color alone.
-- `code` — large copyable authentication code.
+- `details` — labeled key/value rows separated by hairline rules (appointment, invitation); not a box inside the card.
+- `notice` — information/warning as a tinted block (the warning adds a 1px outline, no side bar); meaning always in the text, not color alone. Optional `link` (`{label, url}`) for a recovery action after the message.
+- `code` — large copyable authentication code between two rules.
 - `digest_list` — repeating description lines; `title` is required, `time` and `subtitle` are optional. The time column is omitted when no row has a non-empty time; mixed lists keep an empty time cell on untimed rows so all descriptions align.
 - `spacer` — explicit allowed vertical spacings (16, 20, 28).
 
@@ -24,6 +24,8 @@
 - One 600px column, fluid outside; an Outlook conditional wrapper pins card and footer to the desktop width. There is no VML: rounded corners degrade to square in Word-based Outlook.
 - Email typography falls back to Arial/Helvetica; there are no external fonts. The only image is the optional header logo, which is decorative: the brand name stays as text, so blocking images loses nothing. `word-break` is inherited from `body` so long names and URLs wrap.
 - `format-detection` and an `a[x-apple-data-detectors]` reset stop iOS from restyling dates and addresses.
+- Themes (`src/templates/styles/themes/*.css`) only override `:root` tokens, colours and corner radii included; the resolver rejects unknown tokens and extra rules. Each message is exported in every theme so the same markup proves the variants. Word-based Outlook squares every corner, so rounded themes degrade to the sharp shape there.
+- There is no eyebrow label above the title. A message states its fact once: the title carries it, the lead adds context, components carry the details.
 - Dark mode is a best-effort light/dark pair: `--dark-*` tokens feed a `prefers-color-scheme` block. Client-driven inversion can still override it; test before promising a specific theme.
 - Buttons include background on their table cell; checked in Outlook 2019 (square corners, correct padding).
 - Word-based Outlook rules learned from real renders:
@@ -53,7 +55,7 @@ The first host integration reported needs beyond the demo defaults. The followin
 - **Button and fallback**: keep `button` and `subcopy` separate for now; a combined `fallback` option needs another concrete consumer before becoming an abstraction.
 - **Outlook thin lines**: the pilot's cell-background workaround has no Outlook 2019 validation yet. Keep it as a candidate in [next-steps.md](next-steps.md), including matching corner radii and dark overrides; browser screenshots do not close this issue.
 
-Migration for existing callers: supply `label` on every `subcopy` include (including calls with `with_context = false`). The digest change accepts existing timed rows unchanged. Plain-text exports no longer repeat the subject, and URLs now occupy separate lines.
+Migration for existing callers: supply `label` on every `subcopy` include (including calls with `with_context = false`). The layout no longer reads `eyebrow`; `brand.footer_note` is optional. The digest example no longer uses a KPI tile (`.email-kpi*` classes were removed). `details`, `digest_list` and `code` markup changed to ruled rows; the `.email-details-inner` and `.email-list-sep` classes were removed. New tokens `--radius-*`, `--dark-button` and `--dark-on-button` must exist in a copied `:root`. The digest change accepts existing timed rows unchanged. Plain-text exports no longer repeat the subject, and URLs now occupy separate lines.
 
 ## Scope exclusion
 

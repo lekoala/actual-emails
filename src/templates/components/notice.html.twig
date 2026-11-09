@@ -1,5 +1,9 @@
+{# Information or warning. Meaning lives in the message, never in colour alone.
+   Optional `link` ({label, url}) follows the message, e.g. a recovery action.
+   Class names stay literal so host class scanners can find them. #}
+{% set has_link = link is defined and link %}
 {% if warning|default(false) %}
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-notice-warning"><tr><td class="email-notice-warning-td">{{ message }}</td></tr></table>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-notice-warning"><tr><td class="email-notice-warning-td">{{ message }}{% if has_link %} <a class="email-notice-warning-link" href="{{ link.url }}">{{ link.label }}</a>{% endif %}</td></tr></table>
 {% else %}
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-notice"><tr><td class="email-notice-td">{{ message }}</td></tr></table>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-notice"><tr><td class="email-notice-td">{{ message }}{% if has_link %} <a class="email-notice-link" href="{{ link.url }}">{{ link.label }}</a>{% endif %}</td></tr></table>
 {% endif %}

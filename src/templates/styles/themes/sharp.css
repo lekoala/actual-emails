@@ -1,0 +1,25 @@
+/* Sharp: square corners and a monochrome palette. Only token overrides. */
+:root {
+  --accent: #1f2328;
+  --accent-ink: #1f2328;
+  --ink: #1f2328;
+  --text: #4a4f55;
+  --muted: #5c6168;
+  --page: #f1f1ee;
+  --surface-tint: #f4f4f1;
+  --border: #e0e0dc;
+  --border-strong: #c4c4bf;
+  --radius-card: 0px;
+  --radius-box: 0px;
+  --radius-control: 0px;
+  --radius-mark: 0px;
+  --dark-page: #141414;
+  --dark-surface: #1d1d1d;
+  --dark-tint: #262626;
+  --dark-ink: #ededeb;
+  --dark-muted: #a8a8a4;
+  --dark-border: #353535;
+  --dark-accent: #e2e2df;
+  --dark-button: #ededeb;
+  --dark-on-button: #1d1d1d;
+}

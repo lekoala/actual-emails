@@ -24,9 +24,18 @@ $textLinks = static function (string $text): array {
     return array_values(array_unique($matches[0]));
 };
 
-foreach (array_keys($fixture['messages']) as $name) {
-    $htmlFile = "$root/dist/$name.html";
-    $textFile = "$root/dist/$name.txt";
+// Every theme export pairs with the theme-independent text version.
+$themeNames = array_map(static fn (string $path): string => basename($path, '.css'), glob("$root/src/templates/styles/themes/*.css") ?: []);
+$exports = [];
+foreach (array_keys($fixture['messages']) as $message) {
+    $exports[$message] = [$message, "$root/dist/$message.html"];
+    foreach ($themeNames as $themeName) {
+        $exports["$message--$themeName"] = [$message, "$root/dist/$message--$themeName.html"];
+    }
+}
+
+foreach ($exports as $name => [$message, $htmlFile]) {
+    $textFile = "$root/dist/$message.txt";
     if (!is_file($htmlFile) || !is_file($textFile)) {
         $errors[] = "$name missing output";
         continue;
@@ -83,7 +92,7 @@ foreach (array_keys($fixture['messages']) as $name) {
     if (!str_contains($plain, 'https://example.org/')) {
         $errors[] = "$name plain text lacks a usable link";
     }
-    if (str_starts_with($plain, $fixture['messages'][$name]['subject'])) {
+    if (str_starts_with($plain, $fixture['messages'][$message]['subject'])) {
         $errors[] = "$name plain text repeats the transport subject";
     }
     foreach (preg_split('/\R/', $plain) as $line) {
@@ -114,4 +123,4 @@ if ($errors !== []) {
     fwrite(STDERR, implode("\n", $errors) . "\n");
     exit(1);
 }
-printf("PASS: %d HTML + plain-text message pairs\n", count($fixture['messages']));
+printf("PASS: %d HTML exports (%d messages × %d themes) with their plain-text versions\n", count($exports), count($fixture['messages']), count($themeNames) + 1);

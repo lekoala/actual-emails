@@ -2,13 +2,14 @@ Hello Camille,
 
 Your appointment with Dr Sophie Martin is confirmed.
 
-Date: Thursday 12 November 2026 at 10:30 am
-With: Dr Sophie Martin · General practice
-Location: Linden Tree Practice · Namur
-View my appointment
+When: Thursday 12 November 2026 at 10:30 am
+With: Dr Sophie Martin, general practice
+Where: Linden Tree Practice, 12 Linden Lane, Namur
+Duration: 30 minutes
+Manage my appointment
 https://example.org/appointments/EXAMPLE?view=details&lang=en
 
-Something came up? Please let the practice know early enough.
+Can’t make it? Reschedule or cancel from the same page, up to 24 hours before.
 
 You are receiving this message because you booked an appointment.
 Need help?

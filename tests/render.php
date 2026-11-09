@@ -16,17 +16,44 @@ $root = dirname(__DIR__);
 $errors = [];
 $fixture = json_decode((string) file_get_contents($root . '/src/fixtures/demo.json'), true, 512, JSON_THROW_ON_ERROR);
 $css = (string) file_get_contents($root . '/src/templates/styles/email.css');
-$theme = actual_emails_theme($css);
 
-$twig = new Environment(new FilesystemLoader($root . '/src/templates'), [
-    'strict_variables' => true,
-    // Same strategy as bin/build.php: HTML templates escaped, text plain.
-    'autoescape' => 'name',
-    'cache' => false,
-]);
-$twig->addExtension(new CssInlinerExtension());
-$twig->addGlobal('theme', $theme['tokens']);
-$twig->addGlobal('email_css', $theme['css']);
+/** One environment per theme: Twig globals are fixed once the environment is used. */
+$makeTwig = static function (?string $overrides) use ($root, $css): Environment {
+    $theme = actual_emails_theme($css, $overrides);
+    $twig = new Environment(new FilesystemLoader($root . '/src/templates'), [
+        'strict_variables' => true,
+        // Same strategy as bin/build.php: HTML templates escaped, text plain.
+        'autoescape' => 'name',
+        'cache' => false,
+    ]);
+    $twig->addExtension(new CssInlinerExtension());
+    $twig->addGlobal('theme', $theme['tokens']);
+    $twig->addGlobal('email_css', $theme['css']);
+    return $twig;
+};
+$twig = $makeTwig(null);
+$themeTwigs = ['' => $twig];
+foreach (glob($root . '/src/templates/styles/themes/*.css') ?: [] as $themePath) {
+    $themeTwigs[basename($themePath, '.css')] = $makeTwig((string) file_get_contents($themePath));
+}
+
+// Themes may only redefine existing tokens inside :root.
+$themeRejects = [
+    'unknown token' => ':root { --acent: #000000; }',
+    'extra rule' => ':root { --accent: #000000; } .email-card { border: 0; }',
+];
+foreach ($themeRejects as $case => $overrides) {
+    try {
+        actual_emails_theme($css, $overrides);
+        $errors[] = "theme resolver accepted a theme with an $case";
+    } catch (RuntimeException) {
+    }
+}
+// Shapes are tokens: a theme must be able to square every corner.
+$square = actual_emails_theme($css, ':root { --radius-card: 0px; --radius-box: 0px; --radius-control: 0px; --radius-mark: 0px; }');
+if (preg_match('/border-radius:\s*(?!0px)[0-9]/', $square['css'])) {
+    $errors[] = 'a border-radius in email.css does not come from a radius token';
+}
 
 /**
  * Splits the top-level @media blocks of a stylesheet, braces included.
@@ -144,12 +171,18 @@ if (stripos(ltrim($probeHtml), '<!doctype html>') !== 0) {
 }
 
 // ---------------------------------------------------------------------------
-// 2. Media queries and 3. Outlook bgcolor agreement, per rendered message.
+// 2. Media queries and 3. Outlook bgcolor agreement, per message and theme.
 // ---------------------------------------------------------------------------
-foreach ($fixture['messages'] as $name => $message) {
+$renderCases = [];
+foreach ($themeTwigs as $themeName => $themeTwig) {
+    foreach ($fixture['messages'] as $messageName => $message) {
+        $renderCases[$messageName . ($themeName === '' ? '' : "--$themeName")] = [$themeTwig, $messageName, $message];
+    }
+}
+foreach ($renderCases as $name => [$caseTwig, $messageName, $message]) {
     $data = array_replace_recursive($fixture, $message);
     unset($data['messages']);
-    $html = $twig->render('export.html.twig', $data + ['template' => 'messages/' . $name . '.html.twig']);
+    $html = $caseTwig->render('export.html.twig', $data + ['template' => 'messages/' . $messageName . '.html.twig']);
 
     $document = new DOMDocument();
     libxml_use_internal_errors(true);
@@ -376,4 +409,4 @@ if ($errors !== []) {
     fwrite(STDERR, implode("\n", $errors) . "\n");
     exit(1);
 }
-printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size, bgcolor/CSS agreement on %d messages; translated subcopy, optional digest fields and both header branches\n", count($fixture['messages']));
+printf("PASS: inliner fidelity, media queries, MSO width, Outlook-safe spacing, size, bgcolor/CSS agreement on %d message × theme renders; theme overrides; translated subcopy, optional digest fields and both header branches\n", count($renderCases));

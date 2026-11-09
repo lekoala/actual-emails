@@ -30,15 +30,18 @@
     }
     @media (prefers-color-scheme: dark) {
       body, .email-outer { background-color: {{ theme.dark_page }} !important; }
-      .email-card, .email-list, .email-details, .email-kpi, .email-code-wrap { background-color: {{ theme.dark_surface }} !important; }
+      .email-card { background-color: {{ theme.dark_surface }} !important; }
       .email-notice { background-color: {{ theme.dark_tint }} !important; }
-      .email-notice-warning { background-color: {{ theme.dark_warning_bg }} !important; }
-      .email-title, .email-strong, .email-detail-value, .email-list-title, .email-kpi-number, .email-brand { color: {{ theme.dark_ink }} !important; }
-      .email-lead, .email-text, .email-card-foot-text, .email-footer-brand, .email-footer-text, .email-detail-label, .email-list-sub, .email-kpi-label, .email-action-help { color: {{ theme.dark_muted }} !important; }
-      .email-eyebrow, .email-code, .email-code-label, .email-notice-td, .email-button-ghost-link, .email-footer-link, .email-action-help-link, .email-list-time, .email-card-foot-text a { color: {{ theme.dark_accent }} !important; }
-      .email-notice-warning-td { color: {{ theme.dark_warning_ink }} !important; }
+      .email-notice-warning { background-color: {{ theme.dark_warning_bg }} !important; border-color: {{ theme.dark_warning_ink }} !important; }
+      .email-title, .email-strong, .email-detail-value, .email-list-title, .email-list-time, .email-code, .email-brand { color: {{ theme.dark_ink }} !important; }
+      .email-lead, .email-text, .email-card-foot-text, .email-footer-text, .email-detail-label, .email-list-sub, .email-code-label, .email-action-help { color: {{ theme.dark_muted }} !important; }
+      .email-notice-td, .email-notice-link, .email-button-ghost-link, .email-footer-link, .email-action-help-link, .email-card-foot-text a { color: {{ theme.dark_accent }} !important; }
+      .email-notice-warning-td, .email-notice-warning-link { color: {{ theme.dark_warning_ink }} !important; }
+      .email-button-td { background-color: {{ theme.dark_button }} !important; border-color: {{ theme.dark_button }} !important; }
+      .email-button-link { color: {{ theme.dark_on_button }} !important; }
+      .email-logo-mark { background-color: {{ theme.dark_button }} !important; color: {{ theme.dark_on_button }} !important; }
       .email-button-ghost-td { background-color: {{ theme.dark_surface }} !important; border-color: {{ theme.dark_border }} !important; }
-      .email-card, .email-top-border, .email-card-foot, .email-list, .email-list-sep, .email-details, .email-code-wrap { border-color: {{ theme.dark_border }} !important; }
+      .email-card, .email-top-border, .email-card-foot, .email-detail-label, .email-detail-value, .email-list-cell, .email-list-time, .email-code-cell, .email-row-last { border-color: {{ theme.dark_border }} !important; }
     }
   </style>
 </head>
@@ -66,7 +69,6 @@
           </td></tr>
           <tr><td class="email-top-border"></td></tr>
           <tr><td class="email-body">
-            <div class="email-eyebrow">{{ eyebrow }}</div>
             <h1 class="email-title">{{ title }}</h1>
             {% block content %}{% endblock %}
           </td></tr>
@@ -78,8 +80,7 @@
     </table>
     {# The MSO wrapper spans card and footer so Word-based Outlook pins both to 600px. #}
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-container"><tr><td class="email-footer">
-      <div class="email-footer-brand">{{ brand.name }}</div>
-      <div class="email-footer-text">{{ brand.footer_note }}<br>© {{ year }} {{ brand.name }} · <a class="email-footer-link" href="{{ brand.website }}">{{ brand.website_label }}</a></div>
+      <div class="email-footer-text">{% if brand.footer_note is defined and brand.footer_note %}{{ brand.footer_note }}<br>{% endif %}© {{ year }} {{ brand.name }} · <a class="email-footer-link" href="{{ brand.website }}">{{ brand.website_label }}</a></div>
     </td></tr></table>
     <!--[if mso]></td></tr></table><![endif]-->
   </td></tr></table>

@@ -3,8 +3,10 @@
 
 Your appointment with {{ appointment.practitioner }} is confirmed.
 
+When: {{ appointment.when }}
 {% for item in appointment.details %}{{ item.label }}: {{ item.value }}
-{% endfor %}View my appointment
+{% endfor %}
+Manage my appointment
 {{ appointment.url }}
 
-Something came up? Please let the practice know early enough.{% endblock %}
+Can’t make it? Reschedule or cancel from the same page, up to {{ appointment.cancel_notice }} before.{% endblock %}

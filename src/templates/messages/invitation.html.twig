@@ -1,10 +1,9 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
-<p class="email-lead">Hello {{ recipient.first_name }}, <strong class="email-strong">{{ invitation.sender }}</strong> has invited you to join their workspace.</p>
-<p class="email-text">Find everything your team shares in one simple, secure place.</p>
+<p class="email-lead">Hello {{ recipient.first_name }}, <strong class="email-strong">{{ invitation.sender }}</strong> invited you to join the team workspace.</p>
 {{ include('components/details.html.twig', {'items': invitation.details}, with_context = false) }}
 {{ include('components/spacer.html.twig', {'size': 28}, with_context = false) }}
-{{ include('components/actions.html.twig', {'primary': {'label': 'Accept invitation', 'url': invitation.url}, 'secondary': {'label': 'Learn more', 'url': brand.help_url}}, with_context = false) }}
+{{ include('components/actions.html.twig', {'primary': {'label': 'Accept invitation', 'url': invitation.url}, 'secondary': {'label': 'How invitations work', 'url': brand.help_url}}, with_context = false) }}
 {{ include('components/subcopy.html.twig', {'url': invitation.url, 'label': brand.fallback_link_label}, with_context = false) }}
-<div class="email-action-help">This invitation is valid until {{ invitation.expires }}. If you weren’t expecting it, you can ignore this email.</div>
+<div class="email-action-help">Not expecting this invitation? You can ignore this email; no account will be created.</div>
 {% endblock %}

@@ -3,6 +3,10 @@
 
 Your verification code: {{ security.code }}
 
-It expires in {{ security.minutes }} minutes. Never share it with anyone.
+It expires in {{ security.minutes }} minutes. Never share it, not even with our team.
+Requested on {{ security.requested }}.
 
-Didn’t request this? You can ignore this message.{% endblock %}
+Didn’t try to sign in? Someone may know your password.
+
+Change your password
+{{ security.password_url }}{% endblock %}

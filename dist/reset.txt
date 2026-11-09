@@ -1,13 +1,12 @@
 Hello Camille,
 
-We received a request to reset your password.
+We received a request to reset your password on Monday 9 November 2026 at 09:12.
+The link works once and expires in 30 minutes.
 
 Choose a new password
 https://example.org/reset/EXAMPLE
 
-This link is valid for 30 minutes and can be used once.
-
-If you did not request this, you can ignore this email; your password will not change.
+Didn’t ask for this? You can ignore this email; your password stays the same.
 
 You are receiving this message because a password reset was requested for your account.
 Need help?
