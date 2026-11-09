@@ -83,7 +83,10 @@ a { color: var(--accent); }
 /* Details, list and code are ruled rows inside the card, not boxes inside a box.
  * Rules sit on cells: Word-based Outlook draws cell borders reliably. */
 .email-details { width: 100%; }
-.email-detail-label { width: 28%; padding: 12px 16px 12px 0; vertical-align: top; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; line-height: 21px; }
+/* Labels break only between words: the inherited break-word would let the
+ * table squeeze the column to a single letter on phones ("Workspac-e"). The
+ * column widens to its longest word; values keep break-word for long URLs. */
+.email-detail-label { width: 28%; padding: 12px 16px 12px 0; vertical-align: top; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; line-height: 21px; word-break: normal; }
 .email-detail-value { padding: 12px 0; vertical-align: top; border-top: 1px solid var(--border); color: var(--ink); font-size: 16px; line-height: 24px; font-weight: 700; }
 .email-row-last { border-bottom: 1px solid var(--border); }
 .email-button-td { background-color: var(--accent); border: 1px solid var(--accent); border-radius: var(--radius-control); text-align: center; mso-padding-alt: 14px 23px; }
