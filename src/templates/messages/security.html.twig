@@ -6,5 +6,5 @@
 <p class="email-text">Never share this code, not even with our team. We will never ask for it by phone or email.</p>
 <p class="email-text">Requested on {{ security.requested }}, from {{ security.device }}.</p>
 {{ include('components/spacer.html.twig', {'size': 16}, with_context = false) }}
-{{ include('components/notice.html.twig', {'warning': true, 'message': 'Didn’t try to sign in? Someone may know your password.', 'link': {'label': 'Change your password', 'url': security.password_url}}, with_context = false) }}
+{{ include('components/notice.html.twig', {'warning': true, 'message': 'Didn’t request this code? Review your account security.', 'link': {'label': 'Change your password', 'url': security.password_url}}, with_context = false) }}
 {% endblock %}

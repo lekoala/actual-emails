@@ -43,6 +43,10 @@
 5. Adapt the host project's template checks (class discovery, inline-style rules) so classes in the email CSS are discoverable, including CSS stored under `templates/` rather than `assets/`. Do **not** add global exceptions allowing handcrafted inline styles, and check that classes built from variables (`email-space-{{ size }}`) are still recognised.
 6. Preserve the host application's fixture/tests contract: every message type in every supported locale with `strict_variables`.
 7. Pair each HTML message with a meaningful text version that extends `layout.txt` and keeps exactly the same links. The text layout contains the body and footer only: the host still supplies the subject to the transport's `Subject` header. Put each URL on its own line below its label.
+8. Pass dates, times and time zones already formatted by the host. The demo's 24-hour times with `CET` are a copy convention, not formatting logic; the kit never parses or converts dates.
+9. Never let a link change state on a GET. Scanners and previewers open email links automatically, so a secondary action such as "Decline" opens a confirmation page and the change happens on an explicit POST.
+
+The kit provides compositions and conventions; the host keeps ownership of business content, its wording and its rules.
 
 ## Integration feedback and adaptation choices
 

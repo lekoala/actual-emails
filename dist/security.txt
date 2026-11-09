@@ -7,7 +7,7 @@ Never share this code, not even with our team. We will never ask for it by phone
 
 Requested on Monday 9 November 2026 at 09:12 (CET), from Firefox on Windows.
 
-Didn’t try to sign in? Someone may know your password.
+Didn’t request this code? Review your account security.
 
 Change your password
 https://example.org/account/password
